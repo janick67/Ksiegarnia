@@ -1,50 +1,45 @@
 public class Book {
-	int id;
+	int id = 0;
 	String title;
 	String author;
 	int instock;
-	String wydawnictwo;
-	String dataUkazaniaWKsiegarni;
-	String jezyk;
-	int rokWydania;
-	float cenaBrutto;
-	float cenaNetto;
-	int numerKatalogowy;
-	String ISBN;
-	int EAN;
-	int liczbaStron;
+	String print;
+	String language;
+	int year;
+	float brutto;
+	float netto;
+	int ean;
+	int page;
 	
-	public Book(int id, String title, String author, int instock , String wydawnictwo, String dataUkazaniaWKsiegarni,
-		String jezyk, int rokWydania, float cenaBrutto, float cenaNetto, int numerKatalogowy, String iSBN, int eAN,
-		int liczbaStron) {
+	public Book(int id, String title, String author, int instock , String printHouse,
+		String lang, int year, float brutto, float netto, int ean,
+		int page) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.instock = instock;
-		this.wydawnictwo = wydawnictwo;
-		this.dataUkazaniaWKsiegarni = dataUkazaniaWKsiegarni;
-		this.jezyk = jezyk;
-		this.rokWydania = rokWydania;
-		this.cenaBrutto = cenaBrutto;
-		this.cenaNetto = cenaNetto;
-		this.numerKatalogowy = numerKatalogowy;
-		this.ISBN = iSBN;
-		this.EAN = eAN;
-		this.liczbaStron = liczbaStron;
+		this.print = printHouse;
+		this.language = lang;
+		this.year = year;
+		this.brutto = brutto;
+		this.netto = netto;
+		this.ean = ean;
+		this.page = page;
 	}
 	
 	public Book(String title, String author, int instock)
 	{
-		this(0,title,author,instock,"","","PL",0,0,0,0,"",0,0);
+		this(0,title,author,instock,"","PL",0,0,0,0,0);
 	}
 	
 	public Book(int id)
 	{
-		this(id,"","",0,"","","",0,0,0,0,"",0,0);
+		this(id,"","",0,"","",0,0,0,0,0);
 	}
 
 	public int writeSQL()
 	{
+		if(this.id != 0) return -1;
 		int id = Mysql.insert("INSERT INTO `books`VALUES (default,'"+title+"','"+author+"','"+instock+"')");
 		if (id != 0) {
 			this.id = id;

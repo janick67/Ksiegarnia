@@ -1,5 +1,5 @@
 public class User {
-	int id;
+	int id = 0;
 	String username;
 	private String password;
 	String email;
@@ -15,6 +15,7 @@ public class User {
 	
 	public int writeSQL()
 	{
+		if(this.id != 0) return -1;
 		int id = Mysql.insert("INSERT INTO `users`VALUES (default,'"+username+"','"+password+"','"+email+"','"+address+"')");
 		if (id != 0) {
 			this.id = id;

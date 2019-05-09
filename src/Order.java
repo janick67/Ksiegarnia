@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 
 public class Order {
-	int id;
+	int id = 0;
 	int userId;
 	int totalPrice;
 	String deliveryAddress;
-	ArrayList<Book> books = new ArrayList<Book>();
-	ArrayList<Integer> orderBooksID =  new ArrayList<Integer>();
+	ArrayList<OrderBook> books;
 	
 	
 	public Order(int id, int userId, int totalPrice, String deliveryAddress) {
@@ -15,7 +14,7 @@ public class Order {
 		this.userId = userId;
 		this.totalPrice = totalPrice;
 		this.deliveryAddress = deliveryAddress;
-		this.books = new ArrayList<Book>();
+		this.books = new ArrayList<OrderBook>();
 	}
 	
 	public Order(int userId, String deliveryAddress) {
@@ -24,6 +23,38 @@ public class Order {
 	
 	public Order(int id) { // tylko do porównywania i wyszukiwania w liœcie
 		this(id,0,0,"");
+	}
+	
+	public void addBook(int id, Book newone, int amount)
+	{
+		this.totalPrice += newone.netto;
+		this.books.add(new OrderBook(id, newone,amount));	
+	}
+	
+	public void addBook(Book newone)
+	{
+		addBook(0,newone, 1);
+	}
+	
+	
+	public int writeSQL()
+	{
+		if(this.id != 0) return -1;
+		int id = Mysql.insert("INSERT INTO `orders`VALUES (default,'"+this.userId+"','"+this.totalPrice+"','"+this.deliveryAddress+"')");
+		if (id != 0) {
+			this.id = id;			
+			for (int i = 0; i < books.size(); i++)
+			{
+				OrderBook book = books.get(i);
+				int bookId = Mysql.insert("INSERT INTO `orderbooks`VALUES (default,'"+this.id+"','"+book.book.id+"','"+book.amount+"')");
+				if (bookId != 0)
+				{
+					book.id = bookId;
+				}
+			}
+			return id;
+		}
+		return -1;
 	}
 	
 

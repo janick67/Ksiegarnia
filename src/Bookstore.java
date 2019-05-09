@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+// ¿eby dodaæ zamówówienie u¿yj opcji prepareOrder, pózniej dodaj do niego ksiazki uzywajac order.addBook a jak ju¿ jest gotowe to u¿yj order.writeSQL
+
 public class Bookstore {
 	
 	ArrayList<Book> books = new ArrayList<Book>();
@@ -11,18 +13,22 @@ public class Bookstore {
 
 	public static void main(String[] args) {
 		Bookstore mbs = new Bookstore();
-		mbs.loadBooks();
-		mbs.listofbooks();
-		mbs.loadUsers();
-		//mbs.listofusers();
-		mbs.loadOrders();
-		mbs.listofOrders();
+		mbs.load();
 //		Book potop = new Book("Potop","Sienkiewicz",5);
 //		potop.writeSQL();
 //		mbs.books.add(potop);
 //		User admin = new User("admin","admin","email@admin.net","");
 //		admin.writeSQL();
 //		mbs.users.add(admin);
+	}
+	
+	public void load()
+	{
+		loadBooks();
+		listofbooks();
+		loadUsers();
+		loadOrders();
+		listofOrders();
 	}
 	
 	public void loadBooks()
@@ -113,17 +119,15 @@ public class Bookstore {
 				int indexOrders = orders.indexOf(new Order(orderId));
 				if (indexOrders >=  0 && indexOrders < books.size()) {
 					Order order = orders.get(indexOrders);
-					if (!order.orderBooksID.contains(id)) {
-						order.orderBooksID.add(id);
-						for (int i = 0; i < amount; i++) {
+					if (!order.books.contains(new OrderBook(id))) {
 							int indexBooks = books.indexOf(new Book(bookId));
 							if (indexBooks >= 0 && indexBooks < books.size()) {
-								order.books.add(books.get(indexBooks));
+								order.addBook(id, books.get(indexBooks),amount);
+								
 							}
 							else {
 								System.out.println("nie znaleziono ksi¹¿ki index = "+indexBooks+", bookId = "+ bookId);
 							}
-						}
 					}
 				}
 				else {
@@ -138,6 +142,27 @@ public class Bookstore {
 		}
 	}
 	
+	
+	public void addBook(String title, String author, int instock)
+	{
+		Book newone = new Book(title, author, instock);
+		newone.id = newone.writeSQL();
+		books.add(newone);
+	}
+
+	public void addUser(String username, String password, String email, String address)
+	{
+		User newone = new User(username, password, email, address);
+		newone.id = newone.writeSQL();
+		users.add(newone);
+	}
+	
+	public Order prepareOrder(int userId)
+	{
+		Order newone = new Order(userId);
+		orders.add(newone);
+		return newone;
+	}
 	
 	public void listofbooks()
 	{
