@@ -26,6 +26,12 @@ public class Book {
 		this.ean = ean;
 		this.page = page;
 	}
+
+	public Book(String title, String author, int instock , String printHouse,
+			String lang, int year, float brutto, float netto, int ean,
+			int page) {
+		this(0,title,author,instock,printHouse,lang,year,brutto,netto,ean,page);
+	}
 	
 	public Book(String title, String author, int instock)
 	{

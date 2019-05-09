@@ -10,6 +10,7 @@ public class Bookstore {
 	ArrayList<Book> books = new ArrayList<Book>();
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Order> orders = new ArrayList<Order>();
+	User activeUser = null;
 
 	public static void main(String[] args) {
 		Bookstore mbs = new Bookstore();
@@ -43,7 +44,14 @@ public class Bookstore {
 				String title = rs.getString("title");
 				String author = rs.getString("author");
 				int instock = rs.getInt("instock");
-				Book temp = new Book(title,author,instock);
+				String print = rs.getString("print");
+				String language = rs.getString("language");
+				int year = rs.getInt("year");
+				float brutto = rs.getFloat("brutto");
+				float netto = rs.getFloat("netto");
+				int ean = rs.getInt("ean");
+				int page = rs.getInt("page");
+				Book temp = new Book(title,author,instock,print,language,year,brutto,netto,ean,page);
 				temp.id = id;
 				if (!books.contains(temp)) books.add(temp);
 			}
@@ -142,6 +150,28 @@ public class Bookstore {
 		}
 	}
 	
+	public boolean login(String username, String password)
+	{
+		for(int i = 0; i < users.size(); i++) {
+			User user = users.get(i);
+			if (user.username == username)
+			{
+				if (user.checkPassword(password))
+				{
+					activeUser = user;
+					return true;	
+				}
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public void logout()
+	{
+		activeUser = null;
+	}
+	
 	
 	public void addBook(String title, String author, int instock)
 	{
@@ -162,7 +192,7 @@ public class Bookstore {
 		Order newone = new Order(userId);
 		orders.add(newone);
 		return newone;
-	}
+	} 
 	
 	public void listofbooks()
 	{

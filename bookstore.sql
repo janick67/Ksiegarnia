@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 04 Maj 2019, 12:45
+-- Czas generowania: 09 Maj 2019, 22:17
 -- Wersja serwera: 10.1.37-MariaDB
 -- Wersja PHP: 7.1.26
 
@@ -32,17 +32,24 @@ CREATE TABLE `books` (
   `ID` int(11) NOT NULL,
   `title` varchar(30) NOT NULL,
   `author` varchar(30) NOT NULL,
-  `instock` int(11) NOT NULL
+  `instock` int(11) NOT NULL,
+  `print` varchar(50) NOT NULL,
+  `language` varchar(50) NOT NULL,
+  `year` int(11) NOT NULL,
+  `brutto` float NOT NULL,
+  `netto` float NOT NULL,
+  `ean` int(11) NOT NULL,
+  `page` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `books`
 --
 
-INSERT INTO `books` (`ID`, `title`, `author`, `instock`) VALUES
-(1, 'Pan Tadeusz', 'Adam Mickiewicz', 1),
-(2, 'Lalka', 'Bolesław Prus', 2),
-(3, 'Potop', 'Sienkiewicz', 5);
+INSERT INTO `books` (`ID`, `title`, `author`, `instock`, `print`, `language`, `year`, `brutto`, `netto`, `ean`, `page`) VALUES
+(1, 'Pan Tadeusz', 'Adam Mickiewicz', 1, '', '', 0, 0, 0, 0, 0),
+(2, 'Lalka', 'Bolesław Prus', 2, '', '', 0, 0, 0, 0, 0),
+(3, 'Potop', 'Sienkiewicz', 5, '', '', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -108,8 +115,6 @@ INSERT INTO `users` (`ID`, `username`, `password`, `email`, `address`) VALUES
 (1, 'test', 'test', 'test@test.com', ''),
 (2, 'test2', 'test2', 'test2@test.com', ''),
 (3, 'test3', 'test3', 'test3@test', ''),
-(4, 'test3', 'test3', 'test3@test', ''),
-(5, 'test3', 'test3', 'test3@test', ''),
 (6, 'admin', 'admin', 'email@admin.net', '');
 
 --
@@ -138,7 +143,8 @@ ALTER TABLE `orders`
 -- Indeksy dla tabeli `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `username` (`username`,`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables

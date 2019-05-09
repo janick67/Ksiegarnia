@@ -13,6 +13,12 @@ public class User {
 		this.address = address;
 	}
 	
+	public boolean checkPassword(String password)
+	{
+		if(this.password == password) return true;
+		return false;
+	}
+	
 	public int writeSQL()
 	{
 		if(this.id != 0) return -1;
