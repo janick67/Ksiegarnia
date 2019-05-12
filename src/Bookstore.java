@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Bookstore {
 	
 	ArrayList<Book> books = new ArrayList<Book>();
+	ArrayList<OrderBook> cart = new ArrayList<OrderBook>();
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Order> orders = new ArrayList<Order>();
 	User activeUser = null;
@@ -15,6 +16,13 @@ public class Bookstore {
 	public static void main(String[] args) {
 		Bookstore mbs = new Bookstore();
 		mbs.load();
+		
+		
+		System.out.println(mbs.activeUser);
+		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
+		System.out.println(mbs.login("admin", "admin"));
+		System.out.println(mbs.activeUser);
+		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
 //		Book potop = new Book("Potop","Sienkiewicz",5);
 //		potop.writeSQL();
 //		mbs.books.add(potop);
@@ -26,10 +34,8 @@ public class Bookstore {
 	public void load()
 	{
 		loadBooks();
-		listofbooks();
 		loadUsers();
 		loadOrders();
-		listofOrders();
 	}
 	
 	public void loadBooks()
@@ -154,11 +160,11 @@ public class Bookstore {
 	{
 		for(int i = 0; i < users.size(); i++) {
 			User user = users.get(i);
-			if (user.username == username)
+			if (user.username.equals(username))
 			{
 				if (user.checkPassword(password))
 				{
-					activeUser = user;
+					this.activeUser = user;
 					return true;	
 				}
 				return false;
@@ -170,6 +176,20 @@ public class Bookstore {
 	public void logout()
 	{
 		activeUser = null;
+		cart = new ArrayList<OrderBook>();
+	}
+	
+	
+	public void addToCart(Book newone, int amount)
+	{
+		cart.add(new OrderBook(newone, amount));
+	}
+	
+	public void cartOrder(User user, String address)
+	{
+		Order newone = new Order(user.id, cart, address);
+		orders.add(newone);
+		newone.writeSQL();
 	}
 	
 	

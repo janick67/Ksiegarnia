@@ -20,6 +20,11 @@ public class OrderBook {
 	{
 		this(id,null,0);
 	}
+	
+	public float totalNetto()
+	{
+		return book.netto*amount;
+	}
 
 	
 	@Override

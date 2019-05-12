@@ -3,18 +3,28 @@ import java.util.ArrayList;
 public class Order {
 	int id = 0;
 	int userId;
-	int totalPrice;
+	float totalPrice;
 	String deliveryAddress;
 	ArrayList<OrderBook> books;
 	
 	
-	public Order(int id, int userId, int totalPrice, String deliveryAddress) {
+	public Order(int id, int userId, float totalPrice, String deliveryAddress) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.totalPrice = totalPrice;
 		this.deliveryAddress = deliveryAddress;
 		this.books = new ArrayList<OrderBook>();
+	}
+
+	public Order(int userId, ArrayList<OrderBook> cart, String deliveryAddress) {
+		this(-1,userId,0,deliveryAddress);
+		float total = 0;
+		for (int i = 0; i < cart.size(); i++)
+		{
+			total += cart.get(i).totalNetto();
+		}
+		this.totalPrice = total;
 	}
 	
 	public Order(int userId, String deliveryAddress) {
