@@ -46,7 +46,7 @@ public class Book {
 	public int writeSQL()
 	{
 		if(this.id != 0) return -1;
-		int id = Mysql.insert("INSERT INTO `books`VALUES (default,'"+title+"','"+author+"','"+instock+"')");
+		int id = Mysql.insert("INSERT INTO `books`VALUES (default,'"+title+"','"+author+"','"+instock+"','"+print+"','"+language+"','"+year+"','"+brutto+"','"+netto+"','"+ean+"','"+page+"')");
 		if (id != 0) {
 			this.id = id;
 			return id;

@@ -58,8 +58,7 @@ public class Bookstore {
 				float netto = rs.getFloat("netto");
 				int ean = rs.getInt("ean");
 				int page = rs.getInt("page");
-				Book temp = new Book(title,author,instock,print,language,year,brutto,netto,ean,page);
-				temp.id = id;
+				Book temp = new Book(id,title,author,instock,print,language,year,brutto,netto,ean,page);
 				if (!books.contains(temp)) books.add(temp);
 			}
 		    
@@ -91,33 +90,45 @@ public class Bookstore {
 		return id;
 	}
 	
-	public String fill(int u)
+	public String fill(int u)/// usun ta ca³a funkcje i u¿yj tej co napisa³em ja ponizej, findbookbyid
 	{
-		String title="";
-		String author="";
-		String result="";
-		Mysql mysqlConnect = new Mysql();
-		
-		try {
-			String sql=("SELECT title, author from books where ID="+u);
-		    Statement stmt = mysqlConnect.connect().createStatement();
-		    ResultSet rs = stmt.executeQuery(sql);
-		    
-		    while(rs.next()) {
-		    	  title = rs.getString("title");
-		    	  author = rs.getString("author");
-		    	  result=(title+" "+ author);
-			}
-		  
-		} catch (SQLException e) {
-		    e.printStackTrace();
-		} finally {
-		    mysqlConnect.disconnect();
-		}
-		return result ;
+		System.out.println();
+		System.out.println("tu jestem: "+u);
+		System.out.println();
+		Book my = findBookById(u);
+		if (my != null) return my.title+" "+my.author; // to napisa³em tylko ¿eby dzia³a³o ale u¿ywaj funkcji findbookbyid zamiast tej, i przenieœ sobie to sklejanie ju¿ do swoich klas
+		return "";
+//		String title="";
+//		String author="";
+//		String result="";
+//		Mysql mysqlConnect = new Mysql();
+//		
+//		try {
+//			String sql=("SELECT title, author from books where ID="+u);
+//		    Statement stmt = mysqlConnect.connect().createStatement();
+//		    ResultSet rs = stmt.executeQuery(sql);
+//		    
+//		    while(rs.next()) {
+//		    	  title = rs.getString("title");
+//		    	  author = rs.getString("author");
+//		    	  result=(title+" "+ author);
+//			}
+//		  
+//		} catch (SQLException e) {
+//		    e.printStackTrace();
+//		} finally {
+//		    mysqlConnect.disconnect();
+//		}
+//		return result ;
 	}
 	
 	//Jacek- koniec
+	
+	public Book findBookById(int id ) {
+		int index = books.indexOf(new Book(id));
+		if (index >= 0) return books.get(index);
+		return null;
+	}
 	
 	//Mateusz
 		public int MaxId(String name)
@@ -139,33 +150,43 @@ public class Bookstore {
 			return id;
 		}
 		
-		public String fillUser(int u)
+		public String fillUser(int u) /// usun ta ca³a funkcje i u¿yj tej co napisa³em ja ponizej, finduserbyid
 		{
-			String username="";
-			//String email="";
-			//String result="";
-			Mysql mysqlConnect = new Mysql();
-			
-			try {
-				String sql=("SELECT username from users where ID="+u);
-			    Statement stmt = mysqlConnect.connect().createStatement();
-			    ResultSet rs = stmt.executeQuery(sql);
-			    
-			    while(rs.next()) {
-			    	username = rs.getString("username");
-			    	//email = rs.getString("email");
-			    	 // result=(username+" "+ email+" "+u);
-				}
-			  
-			} catch (SQLException e) {
-			    e.printStackTrace();
-			} finally {
-			    mysqlConnect.disconnect();
-			}
-			return username ;
+			User us = findUserById(u);
+			if (us != null) return us.username; // to napisa³em tylko ¿eby dzia³a³o ale u¿ywaj funkcji finduserbyid zamiast tej
+			return "";
+					
+//			String username="";
+//			//String email="";
+//			//String result="";
+//			Mysql mysqlConnect = new Mysql();
+//			
+//			try {
+//				String sql=("SELECT username from users where ID="+u);
+//			    Statement stmt = mysqlConnect.connect().createStatement();
+//			    ResultSet rs = stmt.executeQuery(sql);
+//			    
+//			    while(rs.next()) {
+//			    	username = rs.getString("username");
+//			    	//email = rs.getString("email");
+//			    	 // result=(username+" "+ email+" "+u);
+//				}
+//			  
+//			} catch (SQLException e) {
+//			    e.printStackTrace();
+//			} finally {
+//			    mysqlConnect.disconnect();
+//			}
+//			return username ;
 		}
 
 		//Mateusz-koniec
+		
+	public User findUserById(int id) {
+		int index = users.indexOf(new User(id));
+		if (index >= 0) return users.get(index);
+		return null;
+	}
 	
 	public void loadUsers()
 	{

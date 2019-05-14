@@ -5,12 +5,21 @@ public class User {
 	String email;
 	String address;
 	
-	public User(String username, String password, String email, String address) {
+	public User(int id, String username, String password, String email, String address) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.address = address;
+	}
+	
+	public User(String username, String password, String email, String address) {
+		this(0,username,password,email,address);
+	}
+	
+	public User(int id) {
+		this(id,"","","","");
 	}
 	
 	public boolean checkPassword(String password)

@@ -105,6 +105,17 @@ public class Interface extends JFrame implements ActionListener{
 	
 	
 	public static void main(String[] args) {
+		Bookstore mbr = new Bookstore();	
+		mbr.load();											// test ¿e dzia³a wyszukiwanie u¿ytkownika, tak samo jest z wyszukiwaniem ksiazki
+		//System.out.print(mbr.findUserById(6));
+//		System.out.println();
+//		System.out.print(mbr.findBookById(2));
+//		System.out.println();						// test ksiazki
+//		System.out.print(mbr.fill(2));
+//		System.out.println();
+		//mbr.addBook("Harry Potter", "J.K.R.", 5); // test dodawnia ksiazki
+		System.out.print(mbr.books);
+		
 		Interface window = new Interface();
 		window.window();	
 	}
