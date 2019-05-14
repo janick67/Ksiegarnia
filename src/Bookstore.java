@@ -13,29 +13,30 @@ public class Bookstore {
 	ArrayList<Order> orders = new ArrayList<Order>();
 	User activeUser = null;
 
-	public static void main(String[] args) {
-		Bookstore mbs = new Bookstore();
-		mbs.load();
-		
-		
-		System.out.println(mbs.activeUser);
-		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
-		System.out.println(mbs.login("admin", "admin"));
-		System.out.println(mbs.activeUser);
-		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
-//		Book potop = new Book("Potop","Sienkiewicz",5);
-//		potop.writeSQL();
-//		mbs.books.add(potop);
-//		User admin = new User("admin","admin","email@admin.net","");
-//		admin.writeSQL();
-//		mbs.users.add(admin);
-	}
+//	public static void main(String[] args) {
+//		Bookstore mbs = new Bookstore();
+//		mbs.load();
+//		
+//		
+//		System.out.println(mbs.activeUser);
+//		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
+//		System.out.println(mbs.login("admin", "admin"));
+//		System.out.println(mbs.activeUser);
+//		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
+////		Book potop = new Book("Potop","Sienkiewicz",5);
+////		potop.writeSQL();
+////		mbs.books.add(potop);
+////		User admin = new User("admin","admin","email@admin.net","");
+////		admin.writeSQL();
+////		mbs.users.add(admin);
+//	}
 	
 	public void load()
 	{
 		loadBooks();
 		loadUsers();
 		loadOrders();
+		
 	}
 	
 	public void loadBooks()
@@ -62,12 +63,109 @@ public class Bookstore {
 				if (!books.contains(temp)) books.add(temp);
 			}
 		    
+		    
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		} finally {
 		    mysqlConnect.disconnect();
 		}
 	}
+	
+	//Jacek - max ID
+	public int MaxId()
+	{
+		int id = 0;
+		Mysql mysqlConnect = new Mysql();
+		try {
+		    Statement stmt = mysqlConnect.connect().createStatement();
+		    ResultSet rs = stmt.executeQuery("SELECT MAX(ID) as max from books");
+		    if(rs.next()) {
+		    	  id = rs.getInt("max");	
+		    }
+		    
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+		    mysqlConnect.disconnect();
+		}
+		return id;
+	}
+	
+	public String fill(int u)
+	{
+		String title="";
+		String author="";
+		String result="";
+		Mysql mysqlConnect = new Mysql();
+		
+		try {
+			String sql=("SELECT title, author from books where ID="+u);
+		    Statement stmt = mysqlConnect.connect().createStatement();
+		    ResultSet rs = stmt.executeQuery(sql);
+		    
+		    while(rs.next()) {
+		    	  title = rs.getString("title");
+		    	  author = rs.getString("author");
+		    	  result=(title+" "+ author);
+			}
+		  
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+		    mysqlConnect.disconnect();
+		}
+		return result ;
+	}
+	
+	//Jacek- koniec
+	
+	//Mateusz
+		public int MaxId(String name)
+		{
+			int id = 0;
+			Mysql mysqlConnect = new Mysql();
+			try {
+			    Statement stmt = mysqlConnect.connect().createStatement();
+			    ResultSet rs = stmt.executeQuery("SELECT MAX(ID) as max from "+name);
+			    if(rs.next()) {
+			    	  id = rs.getInt("max");	
+			    }
+			    
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			} finally {
+			    mysqlConnect.disconnect();
+			}
+			return id;
+		}
+		
+		public String fillUser(int u)
+		{
+			String username="";
+			//String email="";
+			//String result="";
+			Mysql mysqlConnect = new Mysql();
+			
+			try {
+				String sql=("SELECT username from users where ID="+u);
+			    Statement stmt = mysqlConnect.connect().createStatement();
+			    ResultSet rs = stmt.executeQuery(sql);
+			    
+			    while(rs.next()) {
+			    	username = rs.getString("username");
+			    	//email = rs.getString("email");
+			    	 // result=(username+" "+ email+" "+u);
+				}
+			  
+			} catch (SQLException e) {
+			    e.printStackTrace();
+			} finally {
+			    mysqlConnect.disconnect();
+			}
+			return username ;
+		}
+
+		//Mateusz-koniec
 	
 	public void loadUsers()
 	{
