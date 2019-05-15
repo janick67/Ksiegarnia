@@ -42,6 +42,12 @@ public class Book {
 	{
 		this(id,"","",0,"","",0,0,0,0,0);
 	}
+	
+	public boolean delete(){
+		if(this.id <= 0) return false;
+		Mysql.delete("DELETE FROM `books` WHERE id = "+this.id);
+		return true;
+	}
 
 	public int writeSQL()
 	{

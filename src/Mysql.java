@@ -71,4 +71,15 @@ public class Mysql {
 		}
 		return -1;
     }
+    
+    public static void delete(String sql) {
+	    Mysql mysqlConnect = new Mysql();
+		try {
+		    Statement stmt = mysqlConnect.connect().createStatement();
+		    stmt.executeUpdate(sql);
+		      System.out.println("Record deleted successfully");
+		    } catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+    }
 }

@@ -76,60 +76,6 @@ public class Bookstore {
 		if (index >= 0) return books.get(index);
 		return null;
 	}
-	
-	
-	
-	//Mateusz
-		public int MaxId(String name)
-		{
-			int id = 0;
-			Mysql mysqlConnect = new Mysql();
-			try {
-			    Statement stmt = mysqlConnect.connect().createStatement();
-			    ResultSet rs = stmt.executeQuery("SELECT MAX(ID) as max from "+name);
-			    if(rs.next()) {
-			    	  id = rs.getInt("max");	
-			    }
-			    
-			} catch (SQLException e) {
-			    e.printStackTrace();
-			} finally {
-			    mysqlConnect.disconnect();
-			}
-			return id;
-		}
-		
-		public String fillUser(int u) /// usun ta ca³a funkcje i u¿yj tej co napisa³em ja ponizej, finduserbyid
-		{
-			User us = findUserById(u);
-			if (us != null) return us.username; // to napisa³em tylko ¿eby dzia³a³o ale u¿ywaj funkcji finduserbyid zamiast tej
-			return "";
-					
-//			String username="";
-//			//String email="";
-//			//String result="";
-//			Mysql mysqlConnect = new Mysql();
-//			
-//			try {
-//				String sql=("SELECT username from users where ID="+u);
-//			    Statement stmt = mysqlConnect.connect().createStatement();
-//			    ResultSet rs = stmt.executeQuery(sql);
-//			    
-//			    while(rs.next()) {
-//			    	username = rs.getString("username");
-//			    	//email = rs.getString("email");
-//			    	 // result=(username+" "+ email+" "+u);
-//				}
-//			  
-//			} catch (SQLException e) {
-//			    e.printStackTrace();
-//			} finally {
-//			    mysqlConnect.disconnect();
-//			}
-//			return username ;
-		}
-
-		//Mateusz-koniec
 		
 	public User findUserById(int id) {
 		int index = users.indexOf(new User(id));
@@ -139,6 +85,13 @@ public class Bookstore {
 	
 	public boolean deleteUser(User user) {
 		user.delete();
+		users.remove(user);
+		return true;
+	}
+	
+	public boolean deleteUser(Book book) {
+		book.delete();
+		books.remove(book);
 		return true;
 	}
 	

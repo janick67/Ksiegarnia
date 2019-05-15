@@ -28,6 +28,12 @@ public class User {
 		return false;
 	}
 	
+	public boolean delete(){
+		if(this.id <= 0) return false;
+		Mysql.delete("DELETE FROM `users` WHERE id = "+this.id);
+		return true;
+	}
+	
 	public int writeSQL()
 	{
 		if(this.id != 0) return -1;
