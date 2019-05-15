@@ -70,65 +70,14 @@ public class Bookstore {
 		}
 	}
 	
-	//Jacek - max ID
-	public int MaxId()
-	{
-		int id = 0;
-		Mysql mysqlConnect = new Mysql();
-		try {
-		    Statement stmt = mysqlConnect.connect().createStatement();
-		    ResultSet rs = stmt.executeQuery("SELECT MAX(ID) as max from books");
-		    if(rs.next()) {
-		    	  id = rs.getInt("max");	
-		    }
-		    
-		} catch (SQLException e) {
-		    e.printStackTrace();
-		} finally {
-		    mysqlConnect.disconnect();
-		}
-		return id;
-	}
-	
-	public String fill(int u)/// usun ta ca³a funkcje i u¿yj tej co napisa³em ja ponizej, findbookbyid
-	{
-		System.out.println();
-		System.out.println("tu jestem: "+u);
-		System.out.println();
-		Book my = findBookById(u);
-		if (my != null) return my.title+" "+my.author; // to napisa³em tylko ¿eby dzia³a³o ale u¿ywaj funkcji findbookbyid zamiast tej, i przenieœ sobie to sklejanie ju¿ do swoich klas
-		return "";
-//		String title="";
-//		String author="";
-//		String result="";
-//		Mysql mysqlConnect = new Mysql();
-//		
-//		try {
-//			String sql=("SELECT title, author from books where ID="+u);
-//		    Statement stmt = mysqlConnect.connect().createStatement();
-//		    ResultSet rs = stmt.executeQuery(sql);
-//		    
-//		    while(rs.next()) {
-//		    	  title = rs.getString("title");
-//		    	  author = rs.getString("author");
-//		    	  result=(title+" "+ author);
-//			}
-//		  
-//		} catch (SQLException e) {
-//		    e.printStackTrace();
-//		} finally {
-//		    mysqlConnect.disconnect();
-//		}
-//		return result ;
-	}
-	
-	//Jacek- koniec
 	
 	public Book findBookById(int id ) {
 		int index = books.indexOf(new Book(id));
 		if (index >= 0) return books.get(index);
 		return null;
 	}
+	
+	
 	
 	//Mateusz
 		public int MaxId(String name)
@@ -186,6 +135,11 @@ public class Bookstore {
 		int index = users.indexOf(new User(id));
 		if (index >= 0) return users.get(index);
 		return null;
+	}
+	
+	public boolean deleteUser(User user) {
+		user.delete();
+		return true;
 	}
 	
 	public void loadUsers()

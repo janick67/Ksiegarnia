@@ -144,23 +144,23 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 		}
 		else if(source == bDelBook)
 		{
-			DelBook book = new DelBook();
-			book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			book.setVisible(true);
+		//	DelBook book = new DelBook();
+		//	book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//	book.setVisible(true);
 			dispose();
 		}
 		else if(source == bAddNewBook)
 		{
-			AddNewBook book = new AddNewBook();
-			book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			book.setVisible(true);
+		//	AddNewBook book = new AddNewBook();
+			//book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//	book.setVisible(true);
 			dispose();
 		}
 		else if(source == bAddBook)
 		{
-			AddBook book = new AddBook();
-			book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			book.setVisible(true);
+			//AddBook book = new AddBook();
+			//book.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			//book.setVisible(true);
 			dispose();
 		}
 		else if(source == bDisOrder)
@@ -186,9 +186,9 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 		}
 		else if(source == bDelUser)
 		{
-			DelUser user = new DelUser();
-			user.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			user.setVisible(true);
+		//	DelUser user = new DelUser();
+			//user.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			//user.setVisible(true);
 			dispose();
 		}
 		//else

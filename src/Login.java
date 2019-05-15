@@ -12,8 +12,8 @@ import java.util.*;
 
 
 public class Login extends JFrame implements ActionListener {
-	private JButton bLogIn,bReturn;
-	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2;
+	private JButton bLogin,bReturn,bAdd,bNew ;
+	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2,lWarning;
 	private JTextField tLogin;
 	private JPasswordField tPassword;
 	private String login,password;
@@ -24,9 +24,17 @@ public class Login extends JFrame implements ActionListener {
 		setTitle("Ksiêgarnia");
 		setLayout(null);
 		
+		lWarning=new JLabel("");
+		lWarning.setBounds(20, 280,300, 20);
+		add(lWarning);
+			
 		lHello=new JLabel("Witaj w panelu logowania!");
 		lHello.setBounds(20, 20, 150, 20);
 		add(lHello);
+		
+		lInfo=new JLabel("Nie masz jeszcze u nas konta?");
+		lInfo.setBounds(20, 200,300, 20);
+		add(lInfo);
 		
 		lLogin=new JLabel("Login");
 		lLogin.setBounds(20, 60, 150, 20);
@@ -44,19 +52,35 @@ public class Login extends JFrame implements ActionListener {
 		tPassword.setBounds(120, 100, 150, 20);
 		add(tPassword);
 		
-		bLogIn = new JButton("Zaloguj");
-		bLogIn.setBounds(120, 150, 150, 20);
-		add(bLogIn);
-		bLogIn.addActionListener(this);
+		//tLoginAdd=new JTextField();
+		//tLoginAdd.setBounds(120, 60, 150, 20);
+		//add(tLoginAdd);
+		
+		//tPasswordAdd=new JPasswordField();
+		//tPasswordAdd.setBounds(120, 100, 150, 20);
+		//add(tPassworAdd);
+		
+		bLogin = new JButton("Zaloguj");
+		bLogin.setBounds(120, 150, 150, 20);
+		add(bLogin);
+		bLogin.addActionListener(this);
+		
+		bNew = new JButton("Za³ó¿ konto");
+		bNew .setBounds(120, 150, 150, 20);
+		//add(bNew );
+		bNew .addActionListener(this);
+		
+		bAdd = new JButton("Za³ó¿ ju¿ teraz!");
+		bAdd .setBounds(30, 230, 150, 20);
+		add(bAdd );
+		bAdd .addActionListener(this);
 		
 		bReturn = new JButton("Wróæ");
-		bReturn.setBounds(650, 20, 150, 20);
+		bReturn.setBounds(650, 20, 100, 20);
 		add(bReturn);
 		bReturn.addActionListener(this);
 		
-		lInfo=new JLabel();
-		lInfo.setBounds(120, 180, 150, 20);
-		add(lInfo);
+		
 		
 		lInfo2=new JLabel();
 		lInfo2.setBounds(120, 200, 250, 20);
@@ -84,7 +108,7 @@ public class Login extends JFrame implements ActionListener {
 			ret.window();
 			dispose();
 			
-		}else{
+		}else if(source == bLogin){
 		Bookstore log = new Bookstore();
 		log.load();
 		login = tLogin.getText();
@@ -108,6 +132,31 @@ public class Login extends JFrame implements ActionListener {
 			}
 		}
 		else lInfo.setText("Bledne dane");
+		}else if(source == bAdd) {
+			lHello.setText("Podaj dane do za³o¿enia konta!");
+			lHello.setBounds(20, 20, 300, 20);
+			bAdd.setVisible(false);;
+			 lInfo.setVisible(false);
+			bLogin.setVisible(false);
+			
+			
+			add(bNew);
+		}else if(source == bNew) {
+		 Bookstore newUser =new Bookstore();
+		 String log = tLogin.getText();
+		 String pass = tPassword.getText();
+		 
+		 
+		 if(log.isEmpty() || pass.isEmpty()) {
+			 lWarning.setText("Podaj dane!");
+			
+		 }else {
+			 newUser.addUser(log, pass, " ", "");
+			 Login load = new Login();
+			 load.login();
+			 dispose();
+		 }
+		 
 		}
 		
 	}

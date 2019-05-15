@@ -20,15 +20,15 @@ public class AddBook extends JFrame implements ActionListener{
 		setTitle("Zmiana liczby ksi¹¿ek");
 		setLayout(null);
 		
-		Bookstore mbr = new Bookstore();
-		int max=mbr.MaxId();
-		
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		list = new JList<String>(model);
-		for(int i=0; i<=max; i++) { 
-		String titleAuthor= mbr.fill(i);	
-	    model.add(i,titleAuthor );
-	    }
+//		Bookstore mbr = new Bookstore();
+//		//int max=mbr.MaxId();
+//		
+//		DefaultListModel<String> model = new DefaultListModel<String>();
+//		list = new JList<String>(model);
+//		for(int i=0; i<=max; i++) { 
+//		String titleAuthor= mbr.fill(i);	
+//	    model.add(i,titleAuthor );
+//	    }
 	
 		list.setBounds(0, 70, 800, 200);
 		add(list);

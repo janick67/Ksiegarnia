@@ -45,12 +45,13 @@ public class DisBook extends JFrame implements ActionListener {
 		bReturn.addActionListener(this);
 		
 		Bookstore mbr = new Bookstore();
-		int max=mbr.MaxId();
-		
+	Interface a = new Interface();
+	
+		int max=a.maxBookId();//tu by³a stara funkcja	
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		list = new JList<String>(model);
 		for(int i=0; i<=max; i++) { 
-		String titleAuthor= mbr.fill(i);	
+		String titleAuthor= a.fillBook(i);	//tu by³a stara funkcja
 	    model.add(i,titleAuthor );
 	    }
 	

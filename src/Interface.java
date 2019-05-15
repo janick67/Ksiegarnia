@@ -3,10 +3,13 @@ import java.awt.Dimension;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.acl.LastOwnerException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
@@ -19,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+//import com.sun.glass.ui.Window;
 
 public class Interface extends JFrame implements ActionListener{
 
@@ -40,7 +45,7 @@ public class Interface extends JFrame implements ActionListener{
 		
 	
 		lQuantity = new JLabel("");
-		lQuantity.setBounds(20, 400, 150, 20);
+		lQuantity.setBounds(560, 25, 150, 20);
 		add(lQuantity);
 		
 		lHello = new JLabel("Witaj w ksiêgarni!");
@@ -63,16 +68,16 @@ public class Interface extends JFrame implements ActionListener{
 		bLogin.addActionListener(this);
 		
 		Bookstore mbr = new Bookstore();
-		int max=mbr.MaxId();
-		
+		int max=maxBookId();		
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		list = new JList<String>(model);
+		
 		for(int i=0; i<=max; i++) { 
-		String titleAuthor= mbr.fill(i);	
-	    model.add(i,titleAuthor );
+		String titleAuthor = fillBook(i);
+		model.add(i,titleAuthor);
 	    }
 	
-		list.setBounds(350, 30, 300, 200);
+		list.setBounds(260, 30, 300, 150);
 		add(list);
 		
 		 ListSelectionListener listSelectionListener = new ListSelectionListener() {
@@ -85,23 +90,51 @@ public class Interface extends JFrame implements ActionListener{
 		          int selections[] = list.getSelectedIndices();
 		          Object selectionValues[] = list.getSelectedValues();
 		          for (int i = 0, n = selections.length; i < n; i++) {
-		            if (i == 0) {
-		            }
-		            	lQuantity.setText("Dostêpne sztuki: ");
+		        	 
+		        	  Bookstore mbr = new Bookstore();
+		      		mbr.load();	
+		      	
+		      		Book my = mbr.findBookById(selections[i]);
+		      		 int q=my.instock; 
+		            	lQuantity.setText("Dostêpne sztuki: "+q);
 		    		} 
+		    		
 		        }
 		      }
 		    };
 		   list.addListSelectionListener(listSelectionListener);	   
 	}
+	
 		  
+	public String fillBook(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Book my = mbr.findBookById(u);
+		
+		if(my != null) return(my.author+"  -  "+my.title+my.id); 
+		return "";
+	}
+	
+	
+	public int  maxBookId(){
+		Bookstore mbr = new Bookstore();
+		mbr.load();
+		Iterator<Book> iterator = mbr.books.iterator();
+		int max=0;
+		while(iterator.hasNext()) {
+			Book wartosc = iterator.next();
+			max= wartosc.id;
+			}
+		return max;
+	}
+	
 	
 	public void window() {
 		Interface window = new Interface();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setVisible(true);	
+		window.setVisible(true);
 	}
-	
 	
 	
 	public static void main(String[] args) {
@@ -114,12 +147,10 @@ public class Interface extends JFrame implements ActionListener{
 //		System.out.print(mbr.fill(2));
 //		System.out.println();
 		//mbr.addBook("Harry Potter", "J.K.R.", 5); // test dodawnia ksiazki
-		System.out.print(mbr.books);
-		
+		//System.out.print(mbr.books);	
 		Interface window = new Interface();
-		window.window();	
+		window.window();
 	}
-	
 	
 
 
