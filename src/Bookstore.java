@@ -114,7 +114,8 @@ public class Bookstore {
 				String password = rs.getString("password");
 				String email = rs.getString("email");
 				String address = rs.getString("address");
-				User temp = new User(username,password,email,address);
+				boolean isadmin = rs.getBoolean("isadmin");
+				User temp = new User(username,password,email,address,isadmin);
 				temp.id = id;
 				if (!users.contains(temp)) users.add(temp);
 			}
@@ -232,10 +233,17 @@ public class Bookstore {
 		newone.id = newone.writeSQL();
 		books.add(newone);
 	}
-
+	
 	public void addUser(String username, String password, String email, String address)
 	{
-		User newone = new User(username, password, email, address);
+		User newone = new User(username, password, email, address, false);
+		newone.id = newone.writeSQL();
+		users.add(newone);
+	}
+
+	public void addUser(String username, String password, String email, String address, boolean isadmin)
+	{
+		User newone = new User(username, password, email, address, isadmin);
 		newone.id = newone.writeSQL();
 		users.add(newone);
 	}

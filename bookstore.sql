@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 09 Maj 2019, 22:17
+-- Czas generowania: 22 Maj 2019, 17:40
 -- Wersja serwera: 10.1.37-MariaDB
 -- Wersja PHP: 7.1.26
 
@@ -47,9 +47,10 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`ID`, `title`, `author`, `instock`, `print`, `language`, `year`, `brutto`, `netto`, `ean`, `page`) VALUES
-(1, 'Pan Tadeusz', 'Adam Mickiewicz', 1, '', '', 0, 0, 0, 0, 0),
-(2, 'Lalka', 'Bolesław Prus', 2, '', '', 0, 0, 0, 0, 0),
-(3, 'Potop', 'Sienkiewicz', 5, '', '', 0, 0, 0, 0, 0);
+(1, 'Pan Tadeusz', 'Adam Mickiewicz', 1, '', '', 0, 0, 2, 0, 0),
+(2, 'Lalka', 'Bolesław Prus', 2, '', '', 0, 0, 4, 0, 0),
+(3, 'Potop', 'Sienkiewicz', 5, '', '', 0, 0, 9, 0, 0),
+(4, 'Harry Potter', 'J.K.R.', 5, '', 'PL', 0, 0, 13, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,13 @@ CREATE TABLE `orderbooks` (
 
 INSERT INTO `orderbooks` (`ID`, `ordersID`, `booksID`, `amount`) VALUES
 (1, 2, 1, 5),
-(2, 2, 2, 3);
+(2, 2, 2, 3),
+(7, 4, 2, 1),
+(8, 4, 3, 3),
+(9, 5, 2, 1),
+(10, 5, 3, 3),
+(11, 6, 2, 1),
+(12, 6, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -91,7 +98,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`ID`, `userID`, `totalPrice`, `deliveryAddress`, `timestamp`) VALUES
-(2, 2, 25, '34-700 Rdzawka 67', '2019-05-04 09:42:09');
+(2, 2, 25, '34-700 Rdzawka 67', '2019-05-04 09:42:09'),
+(4, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40'),
+(5, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40'),
+(6, 2, 31, 'Rabka-Zdrój', '2019-05-22 16:29:36');
 
 -- --------------------------------------------------------
 
@@ -104,18 +114,19 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `address` varchar(100) NOT NULL
+  `address` varchar(100) NOT NULL,
+  `isadmin` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `users`
 --
 
-INSERT INTO `users` (`ID`, `username`, `password`, `email`, `address`) VALUES
-(1, 'test', 'test', 'test@test.com', ''),
-(2, 'test2', 'test2', 'test2@test.com', ''),
-(3, 'test3', 'test3', 'test3@test', ''),
-(6, 'admin', 'admin', 'email@admin.net', '');
+INSERT INTO `users` (`ID`, `username`, `password`, `email`, `address`, `isadmin`) VALUES
+(1, 'test', 'test', 'test@test.com', '', b'0'),
+(2, 'test2', 'test2', 'test2@test.com', '', b'0'),
+(3, 'test3', 'test3', 'test3@test', '', b'0'),
+(6, 'admin', 'admin', 'email@admin.net', '', b'1');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -154,19 +165,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT dla tabeli `books`
 --
 ALTER TABLE `books`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT dla tabeli `orderbooks`
 --
 ALTER TABLE `orderbooks`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT dla tabeli `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT dla tabeli `users`

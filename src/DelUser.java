@@ -28,15 +28,15 @@ public class DelUser extends JFrame implements ActionListener{
 		lHello.setHorizontalAlignment(JLabel.CENTER);
 		add(lHello);
 		
-		Bookstore mbr = new Bookstore();
-		int max=mbr.MaxId("Users");
-		
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		list = new JList<String>(model);
-		for(int i=0; i<=max; i++) { 
-		String titleUser= mbr.fillUser(i);	
-	    model.add(i,titleUser );
-	    }
+//		Bookstore mbr = new Bookstore();
+//		int max=mbr.MaxId("Users");
+//		
+//		DefaultListModel<String> model = new DefaultListModel<String>();
+//		list = new JList<String>(model);
+//		for(int i=0; i<=max; i++) { 
+//		String titleUser= mbr.fillUser(i);	
+//	    model.add(i,titleUser );
+//	    }
 	
 		list.setBounds(0, 100, 800, 200);
 		add(list);

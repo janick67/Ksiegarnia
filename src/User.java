@@ -4,22 +4,28 @@ public class User {
 	private String password;
 	String email;
 	String address;
+	boolean isadmin; 
 	
-	public User(int id, String username, String password, String email, String address) {
+	public User(int id, String username, String password, String email, String address, boolean isadmin) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.address = address;
+		this.isadmin = isadmin;
+	}
+	
+	public User(String username, String password, String email, String address, boolean isadmin) {
+		this(0,username,password,email,address,isadmin);
 	}
 	
 	public User(String username, String password, String email, String address) {
-		this(0,username,password,email,address);
+		this(0,username,password,email,address,false);
 	}
 	
 	public User(int id) {
-		this(id,"","","","");
+		this(id,"","","","",false);
 	}
 	
 	public boolean checkPassword(String password)
