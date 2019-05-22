@@ -30,6 +30,11 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 	private JList<String> list;
 	private JList<String> list2;
 	
+	ArrayList<String> author= new ArrayList<String>();
+	ArrayList<String> title= new ArrayList<String>();
+	ArrayList<Integer> id= new ArrayList<Integer>();
+	ArrayList<Float> price= new ArrayList<Float>();
+	
 	public OrderPanel()
 	{
 		setSize(800,600);
@@ -59,10 +64,7 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 		Bookstore mbr = new Bookstore();
 		Interface inter = new Interface();
 		int max=inter.maxBookId();	
-		//String[] names = {"1","2","3"};
-		//Object[][] data = {"B","H","M"};
-	//JTable table;
-		//table(data,name);
+		
 		
 		
 		
@@ -111,15 +113,32 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 		        	
 		        		 model2.addElement(t);
 		        	
-		        		 int aa = selections[i];
-			       		  System.out.print(aa);
+		        		 int index = selections[i];
+			       		
 			       		  Bookstore m = new Bookstore();
 			       			m.load();	
-			       			Book kk = m.findBookById(aa);
-			       			if(kk != null)  System.out.print(kk.author+"  -  "+kk.title);
+			       			Book kk = m.findBookById(index );
+			       			if(kk != null)  
 			       			
+			       			author.add(kk.author);
+			       			title.add(kk.title);
+			       			id.add(kk.id);
+			       			price.add(kk.brutto);
 		        		
+			       			System.out.print(author);
+			       			System.out.println();
+			       			System.out.print(title);
+			       			System.out.println();
+			       			System.out.print(id);
+			       			System.out.println();
+			       			System.out.print(price);
+			       			System.out.println();
 			       			
+			       			float sum=0;
+			    			for(Float f:price) {
+			    				sum=sum+f;
+			    			}
+			    			System.out.println(sum);
 		      	    }
 		      		JScrollPane jp = new JScrollPane(list2);
 		      	    add(jp);
@@ -148,15 +167,63 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 	          for (int i = 0, n = selections.length; i < n; i++) {
 	        	 String  t = (String) selectionValues[i];
 	        	 int j = selections[i];
-	        	
-	   
-	        	model2.remove(j);
+	        	 int index = selections[i];
+	       		 Bookstore m = new Bookstore();
+	       			m.load();	
+	       			Book kk = m.findBookById(index);
+	       			
+	       			if(kk != null) {  		
+	       		author.remove(kk.id);
+	       		title.remove(kk.id);
+	       		id.remove(kk.id);
+	       		price.remove(kk.id);
+	       		
+	       		model2.remove(j);
+	       			System.out.print(author);
+	       			System.out.println();
+	     			System.out.print(title);
+	     			System.out.println();
+	     			System.out.print(id);
+	     			System.out.println();
+	     			System.out.print(price);
+	     			System.out.println();
+	     			float sum=0;
+	    			for(Float f:price) {
+	    				sum=sum+f;
+	    			}
+	    			System.out.println(sum);
+	       			}else
+	       			{
+	       				model2.remove(j);
+	       				author.remove(j);
+	       			   title.remove(j);
+	       			   id.remove(j);
+	       			   price.remove(j);
+	       			System.out.print(author);
+		        	System.out.println();
+	       			System.out.print(title);
+	     			System.out.println();
+	     			System.out.print(id);
+	     			System.out.println();
+	     			System.out.print(price);
+	     			System.out.println();
+	     			float sum=0;
+	    			for(Float f:price) {
+	    				sum=sum+f;
+	    			}
+	    			System.out.println(sum);
+	       			}
+	       				
+	       		
+	       			}
+       			
 	      	    }
+	         
 	      		JScrollPane jp = new JScrollPane(list2);
 	      	    add(jp);
 	      	 add(list2);  
 	    		}      
-	      }
+	      
 	    };
 	   list2.addListSelectionListener(listSelectionListener1);	   
 }
@@ -166,8 +233,6 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 		OrderPanel order = new OrderPanel(); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        
-      
 	}
 
 	
@@ -186,10 +251,8 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 			dispose();
 			
 		}else if (source == bSelect){
-			//Bookstore log = new Bookstore();
-			//int id = log.activeUser.id;
-//			/log.prepareOrder(id);
-	        	// log.addBook(title, author, instock);
+			
+			
 	        	 
 	          
 		}}

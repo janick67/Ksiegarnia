@@ -18,12 +18,13 @@ public class Order {
 	}
 
 	public Order(int userId, ArrayList<OrderBook> cart, String deliveryAddress) {
-		this(-1,userId,0,deliveryAddress);
+		this(0,userId,0,deliveryAddress);
 		float total = 0;
 		for (int i = 0; i < cart.size(); i++)
 		{
 			total += cart.get(i).totalNetto();
 		}
+		books = cart;
 		this.totalPrice = total;
 	}
 	
@@ -50,7 +51,7 @@ public class Order {
 	public int writeSQL()
 	{
 		if(this.id != 0) return -1;
-		int id = Mysql.insert("INSERT INTO `orders`VALUES (default,'"+this.userId+"','"+this.totalPrice+"','"+this.deliveryAddress+"')");
+		int id = Mysql.insert("INSERT INTO `orders`VALUES (default,'"+this.userId+"','"+this.totalPrice+"','"+this.deliveryAddress+"',default)");
 		if (id != 0) {
 			this.id = id;			
 			for (int i = 0; i < books.size(); i++)

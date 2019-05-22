@@ -31,7 +31,7 @@ public class Interface extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel lQuantity,lHello,lMenu;
+	private JLabel lPrice,lQuantity,lHello,lMenu;
 	private JButton bOrder, bLogin;
 	private JList<String> list;
 
@@ -51,6 +51,10 @@ public class Interface extends JFrame implements ActionListener{
 		lHello = new JLabel("Witaj w ksiêgarni!");
 		lHello.setBounds(20, 20, 150, 20);
 		add(lHello);
+		
+		lPrice = new JLabel("");
+		lPrice.setBounds(560, 50, 150, 20);
+		add(lPrice);
 		
 		lMenu = new JLabel("Menu");
 		lMenu.setBounds(30, 70, 150, 28);
@@ -96,7 +100,9 @@ public class Interface extends JFrame implements ActionListener{
 		      	
 		      		Book my = mbr.findBookById(selections[i]);
 		      		 int q=my.instock; 
+		      		 float price = my.brutto;
 		            	lQuantity.setText("Dostêpne sztuki: "+q);
+		            	lPrice.setText("Cena: "+price);
 		    		} 
 		    		
 		        }
@@ -139,7 +145,13 @@ public class Interface extends JFrame implements ActionListener{
 	
 	public static void main(String[] args) {
 		Bookstore mbr = new Bookstore();	
-		mbr.load();											// test ¿e dzia³a wyszukiwanie u¿ytkownika, tak samo jest z wyszukiwaniem ksiazki
+		mbr.load();
+		
+//		mbr.addToCart(mbr.books.get(1),1);		//dodawanie ksi¹¿ek do koszyka
+//		mbr.addToCart(mbr.books.get(2),3);
+//		mbr.cartOrder(mbr.users.get(1),"Rabka-Zdrój");	//wysy³anie zamówienia
+		
+		//mbr.deleteBook(book)// test ¿e dzia³a wyszukiwanie u¿ytkownika, tak samo jest z wyszukiwaniem ksiazki
 		//System.out.print(mbr.findUserById(6));
 //		System.out.println();
 //		System.out.print(mbr.findBookById(2));

@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class AddNewBook extends JFrame implements ActionListener{
+	public class AddNewBook extends JFrame implements ActionListener{
 	private JLabel lHello,lTitle,lAuthor,lInStock,lTest;
-	private JTextField tTitle,tAuthor,tInStock;
+	private JTextField tTitle,tTitleB,tAuthor,tInStock;
 	private JButton bReturn,bConfirm;
 	String title,author,tmp;
 	int instock;
@@ -22,8 +22,9 @@ public class AddNewBook extends JFrame implements ActionListener{
 		lHello.setBounds(300, 20, 200, 30);
 		add(lHello);
 		
-		lTest = new JLabel("Panel dodawania nowej ksi¹¿ki");
-		lTest.setBounds(300, 500, 200, 30);
+		lTest = new JLabel();
+		lTest.setBounds(0, 500, 800, 30);
+		lTest.setHorizontalAlignment(JLabel.CENTER);
 		add(lTest);
 		
 		lTitle = new JLabel("Tytu³");
@@ -41,9 +42,9 @@ public class AddNewBook extends JFrame implements ActionListener{
 		lInStock.setHorizontalAlignment(JLabel.CENTER);
 		add(lInStock);
 		
-		tTitle = new JTextField();
-		tTitle.setBounds(50, 150, 150, 30);
-		add(tTitle);
+		tTitleB = new JTextField();
+		tTitleB.setBounds(50, 150, 150, 30);
+		add(tTitleB);
 		
 		tAuthor = new JTextField();
 		tAuthor.setBounds(325, 150, 150, 30);
@@ -70,16 +71,38 @@ public class AddNewBook extends JFrame implements ActionListener{
 		Object source = e.getSource();
 		if(source == bConfirm) 
 		{
-			title=tTitle.getText();
+			if(tTitleB.getText().equals("") ||tAuthor.getText().equals("")||tInStock.getText().equals(""))
+			{
+				lTest.setText("Popraw dane !");
+			}
+			//lTest.setText("Popraw dane !");
+			else
+			{
+			title=tTitleB.getText();
 			author=tAuthor.getText();
 			instock=Integer.parseInt(tInStock.getText());
+			
 			Bookstore add = new Bookstore();
 			add.load();
 			add.addBook(title,author,instock);
+			
+			AdminBook admin = new AdminBook();
+			admin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			admin.setVisible(true);
+			dispose();
+			}
+//			if(tTitle.equals(""))
+//			{
+//				lTest.setText("Popraw dane !");
+//				//add.addBook(title,author,instock);
+//			}
+//			 
+			
+
 		}
 		else 
 			{
-			InterfaceAdmin admin = new InterfaceAdmin();
+			AdminBook admin = new AdminBook();
 			admin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			admin.setVisible(true);
 			dispose();

@@ -13,8 +13,8 @@ import java.util.*;
 
 public class Login extends JFrame implements ActionListener {
 	private JButton bLogin,bReturn,bAdd,bNew ;
-	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2,lWarning;
-	private JTextField tLogin;
+	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2,lWarning,lAdress,lEmail;
+	private JTextField tLogin,tAdress,tEmail;
 	private JPasswordField tPassword;
 	private String login,password;
 	
@@ -44,6 +44,22 @@ public class Login extends JFrame implements ActionListener {
 		lPassword.setBounds(20, 100, 150, 20);
 		add(lPassword);
 		
+		lAdress=new JLabel("Adres");
+		lAdress.setBounds(20, 140, 150, 20);
+		
+		
+		lEmail=new JLabel("E-mail");
+		lEmail.setBounds(20, 180, 150, 20);
+		
+		tAdress=new JTextField();
+		tAdress.setBounds(120, 140, 150, 20);
+		
+		
+		tEmail=new JTextField();
+		tEmail.setBounds(120,180, 150, 20);
+		
+		
+		
 		tLogin=new JTextField();
 		tLogin.setBounds(120, 60, 150, 20);
 		add(tLogin);
@@ -52,13 +68,7 @@ public class Login extends JFrame implements ActionListener {
 		tPassword.setBounds(120, 100, 150, 20);
 		add(tPassword);
 		
-		//tLoginAdd=new JTextField();
-		//tLoginAdd.setBounds(120, 60, 150, 20);
-		//add(tLoginAdd);
-		
-		//tPasswordAdd=new JPasswordField();
-		//tPasswordAdd.setBounds(120, 100, 150, 20);
-		//add(tPassworAdd);
+	
 		
 		bLogin = new JButton("Zaloguj");
 		bLogin.setBounds(120, 150, 150, 20);
@@ -66,7 +76,7 @@ public class Login extends JFrame implements ActionListener {
 		bLogin.addActionListener(this);
 		
 		bNew = new JButton("Za³ó¿ konto");
-		bNew .setBounds(120, 150, 150, 20);
+		bNew .setBounds(120, 220, 150, 20);
 		//add(bNew );
 		bNew .addActionListener(this);
 		
@@ -138,20 +148,25 @@ public class Login extends JFrame implements ActionListener {
 			bAdd.setVisible(false);;
 			 lInfo.setVisible(false);
 			bLogin.setVisible(false);
-			
-			
 			add(bNew);
+			add(tEmail);
+			add(tAdress);
+			add(lAdress);
+			add(lEmail);
+			
 		}else if(source == bNew) {
 		 Bookstore newUser =new Bookstore();
 		 String log = tLogin.getText();
 		 String pass = tPassword.getText();
+		 String adr = tAdress.getText();
+		 String Email = tEmail.getText();
 		 
 		 
 		 if(log.isEmpty() || pass.isEmpty()) {
 			 lWarning.setText("Podaj dane!");
 			
 		 }else {
-			 newUser.addUser(log, pass, " ", "");
+			 newUser.addUser(log, pass,adr, Email);
 			 Login load = new Login();
 			 load.login();
 			 dispose();

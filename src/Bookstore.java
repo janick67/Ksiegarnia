@@ -82,14 +82,20 @@ public class Bookstore {
 		if (index >= 0) return users.get(index);
 		return null;
 	}
-	
+//MZ	
+	public Order findOrderById(int id) {
+		int index = orders.indexOf(new Order(id));
+		if (index >= 0) return orders.get(index);
+		return null;
+	}
+//MZ end	
 	public boolean deleteUser(User user) {
 		user.delete();
 		users.remove(user);
 		return true;
 	}
 	
-	public boolean deleteUser(Book book) {
+	public boolean deleteBook(Book book) {
 		book.delete();
 		books.remove(book);
 		return true;
@@ -215,6 +221,7 @@ public class Bookstore {
 	{
 		Order newone = new Order(user.id, cart, address);
 		orders.add(newone);
+		System.out.println(newone);
 		newone.writeSQL();
 	}
 	
