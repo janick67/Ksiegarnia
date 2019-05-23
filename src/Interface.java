@@ -31,7 +31,7 @@ public class Interface extends JFrame implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel lPrice,lQuantity,lHello,lMenu;
+	private JLabel lPrice,lQuantity,lHello,lMenu,lList;
 	private JButton bOrder, bLogin;
 	private JList<String> list;
 
@@ -45,7 +45,7 @@ public class Interface extends JFrame implements ActionListener{
 		
 	
 		lQuantity = new JLabel("");
-		lQuantity.setBounds(560, 25, 150, 20);
+		lQuantity.setBounds(560, 45, 150, 20);
 		add(lQuantity);
 		
 		lHello = new JLabel("Witaj w ksiêgarni!");
@@ -53,13 +53,19 @@ public class Interface extends JFrame implements ActionListener{
 		add(lHello);
 		
 		lPrice = new JLabel("");
-		lPrice.setBounds(560, 50, 150, 20);
+		lPrice.setBounds(560, 70, 150, 20);
 		add(lPrice);
 		
 		lMenu = new JLabel("Menu");
 		lMenu.setBounds(30, 70, 150, 28);
 		lMenu.setFont(lMenu.getFont().deriveFont(20.0f));
 		add(lMenu);
+		
+		lList = new JLabel("Dostêpne pozycje");
+		lList.setBounds(340, 20, 150, 28);
+		
+		add(lList);
+	
 		
 		bOrder = new JButton("Zamów ksi¹¿kê");
 		bOrder.setBounds(30, 100, 140, 30);
@@ -81,7 +87,7 @@ public class Interface extends JFrame implements ActionListener{
 		model.add(i,titleAuthor);
 	    }
 	
-		list.setBounds(260, 30, 300, 150);
+		list.setBounds(260, 50, 300, 150);
 		add(list);
 		
 		 ListSelectionListener listSelectionListener = new ListSelectionListener() {
@@ -92,7 +98,7 @@ public class Interface extends JFrame implements ActionListener{
 		        if (!adjust) {
 		          JList list = (JList) listSelectionEvent.getSource();
 		          int selections[] = list.getSelectedIndices();
-		          Object selectionValues[] = list.getSelectedValues();
+		        //  Object selectionValues[] = list.getSelectedValues();
 		          for (int i = 0, n = selections.length; i < n; i++) {
 		        	 
 		        	  Bookstore mbr = new Bookstore();
@@ -101,7 +107,7 @@ public class Interface extends JFrame implements ActionListener{
 		      		Book my = mbr.findBookById(selections[i]);
 		      		 int q=my.instock; 
 		      		 float price = my.brutto;
-		            	lQuantity.setText("Dostêpne sztuki: "+q);
+		            	lQuantity.setText("Dostêpna iloœæ: "+q);
 		            	lPrice.setText("Cena: "+price);
 		    		} 
 		    		
@@ -118,7 +124,17 @@ public class Interface extends JFrame implements ActionListener{
 		mbr.load();	
 		Book my = mbr.findBookById(u);
 		
-		if(my != null) return(my.author+"  -  "+my.title+my.id); 
+		if(my != null) return(my.author+"  --  "+my.title); 
+		return "";
+	}
+	
+	public String fillBook2(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Book my = mbr.findBookById(u);
+		
+		if(my != null) return(my.author+"  --  "+my.title+"  Cena: "+my.brutto+"  Szt. "+my.instock); 
 		return "";
 	}
 	
@@ -146,10 +162,12 @@ public class Interface extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		Bookstore mbr = new Bookstore();	
 		mbr.load();
+		//for(int i =0;i<4;i++) {
+		//mbr.addToCart(mbr.books.get(i),1);		//dodawanie ksi¹¿ek do koszyka
 		
-//		mbr.addToCart(mbr.books.get(1),1);		//dodawanie ksi¹¿ek do koszyka
-//		mbr.addToCart(mbr.books.get(2),3);
-//		mbr.cartOrder(mbr.users.get(1),"Rabka-Zdrój");	//wysy³anie zamówienia
+	//	}
+		
+	//	mbr.cartOrder(mbr.users.get(1),"Sów");	//wysy³anie zamówienia
 		
 		//mbr.deleteBook(book)// test ¿e dzia³a wyszukiwanie u¿ytkownika, tak samo jest z wyszukiwaniem ksiazki
 		//System.out.print(mbr.findUserById(6));

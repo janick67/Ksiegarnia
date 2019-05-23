@@ -1,6 +1,5 @@
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.DefaultListModel;
@@ -8,10 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -21,27 +16,39 @@ import java.util.*;
 
 public class OrderPanel extends JFrame implements ListSelectionListener,ActionListener {
 	
-	private JButton bLogout,bSelect ;
-	private JLabel lLogin,lPassword,lItem,lBasket,lInfo2;
-	private JTextField text;
-	private JPasswordField tPassword;
-	private String login,password;
-	private JScrollPane jp;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JButton bLogout,bSelect,bSelect1,bDelete ;
+	private JLabel lItem,lBasket1,lBasket;
+	private JTextField tAmount;
+	DefaultListModel<String> model = new DefaultListModel<String>();
+	DefaultListModel<String> model2 = new DefaultListModel<String>();
+	
 	private JList<String> list;
 	private JList<String> list2;
+	int userId;
+	String userAdress;
+	int licznik=0;
 	
-	ArrayList<String> author= new ArrayList<String>();
-	ArrayList<String> title= new ArrayList<String>();
-	ArrayList<Integer> id= new ArrayList<Integer>();
-	ArrayList<Float> price= new ArrayList<Float>();
 	
-	public OrderPanel()
+	ArrayList<Float>price= new ArrayList<Float>();
+	ArrayList<Integer> il= new ArrayList<Integer>();
+	ArrayList<Integer> select= new ArrayList<Integer>();
+	
+	public OrderPanel(int sesion,String adr)
 	{
 		setSize(800,600);
 		setTitle("Ksiêgarnia");
 		setLayout(null);
 		
+		this.userId= sesion;
+		this.userAdress = adr;
 		
+		tAmount=new JTextField();
+		tAmount.setBounds(200, 260, 140, 30);
+		add(tAmount);
 		
 		lItem = new JLabel("Wybierz ksia¿ki");
 		lItem.setBounds(85, 30, 150, 20);
@@ -50,6 +57,10 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 		lBasket = new JLabel("Wybrane pozycje");
 		lBasket.setBounds(525, 30, 150, 20);
 		add(lBasket);
+		
+		lBasket1 = new JLabel("");
+		lBasket1.setBounds(400, 400, 300, 200);
+		add(lBasket1);
 
 		bLogout = new JButton("Wyloguj");
 		bLogout.setBounds(650, 20, 100, 20);
@@ -61,187 +72,120 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 		add(bSelect );
 		bSelect .addActionListener(this);
 		
-		Bookstore mbr = new Bookstore();
+		bSelect1 = new JButton("Wybierz1");
+		bSelect1 .setBounds(30, 300, 140, 30);
+		add(bSelect1 );
+		bSelect1 .addActionListener(this);
+		
+		bDelete = new JButton("Usuñ");
+		bDelete .setBounds(30, 450, 140, 30);
+		add(bDelete );
+		bDelete .addActionListener(this);
+		
+		
 		Interface inter = new Interface();
 		int max=inter.maxBookId();	
 		
 		
 		
 		
-		
-		DefaultListModel<String> model = new DefaultListModel<String>();
-		DefaultListModel<String> model2 = new DefaultListModel<String>();
-		
-		
 		list = new JList<String>(model);
+		
 		for(int i=0; i<=max; i++) { 
-			String titleAuthor = inter.fillBook(i);
+			String titleAuthorPriceAmount = inter.fillBook2(i);
 			
-			model.add(i,titleAuthor);
+			model.add(i,titleAuthorPriceAmount);
 			
 	    }
-		JScrollPane jp = new JScrollPane(list);
-	    add(jp);
+		
 	   
 	  
 		list.setBounds(20, 50, 300, 200);
 		add(list);
-		list.addListSelectionListener(this);
+	list.addListSelectionListener(this);
+	
 		 list2 = new JList<String>(model2);
 		list2.setBounds(400, 50, 300, 200);
   		add(list2);
   		list2.addListSelectionListener(this);
 
 		
-		ListSelectionListener listSelectionListener = new ListSelectionListener() {
+	ListSelectionListener listSelectionListener = new ListSelectionListener() {
 			
-		      private int[][] tablicas;
-			private String zms[][];
+		     
 
 			public void valueChanged(ListSelectionEvent listSelectionEvent) {
 		      
-		        boolean adjust = listSelectionEvent.getValueIsAdjusting();
+	        boolean adjust = listSelectionEvent.getValueIsAdjusting();
 		        
 		        if (!adjust) {
-		          JList list = (JList) listSelectionEvent.getSource();
+		          JList list = (JList) listSelectionEvent.getSource();	         
 		          int selections[] = list.getSelectedIndices();
 		          Object selectionValues[] = list.getSelectedValues();
 		         
-		          for (int i = 0, n = selections.length; i < n; i++) {
+          for (int i = 0, n = selections.length; i < n; i++) {
 		        	 String  t = (String) selectionValues[i];
 		        	   t = (String) selectionValues[i];
-		        	
-		        		 model2.addElement(t);
-		        	
-		        		 int index = selections[i];
-			       		
-			       		  Bookstore m = new Bookstore();
-			       			m.load();	
-			       			Book kk = m.findBookById(index );
-			       			if(kk != null)  
-			       			
-			       			author.add(kk.author);
-			       			title.add(kk.title);
-			       			id.add(kk.id);
-			       			price.add(kk.brutto);
+		        	 
 		        		
-			       			System.out.print(author);
-			       			System.out.println();
-			       			System.out.print(title);
-			       			System.out.println();
-			       			System.out.print(id);
-			       			System.out.println();
-			       			System.out.print(price);
-			       			System.out.println();
-			       			
-			       			float sum=0;
-			    			for(Float f:price) {
-			    				sum=sum+f;
-			    			}
-			    			System.out.println(sum);
-		      	    }
-		      		JScrollPane jp = new JScrollPane(list2);
-		      	    add(jp);
-		      	  
-		      	    
-		      	  add(list2);
-		      	  list.clearSelection();
+		        	
+	      	    }
+         
+		      		
+		      //	  list.clearSelection();
 		    		}
 		      }
 		    };
 		   list.addListSelectionListener(listSelectionListener);	   
 	
-	
-	//list2
-	ListSelectionListener listSelectionListener1 = new ListSelectionListener() {
+		 //list2
+			ListSelectionListener listSelectionListener1 = new ListSelectionListener() {
+				
+			      public void valueChanged(ListSelectionEvent listSelectionEvent) {
+			      
+			        boolean adjust = listSelectionEvent.getValueIsAdjusting();
+			        
+			        if (!adjust) {
+			          JList list2 = (JList) listSelectionEvent.getSource();
+			          int selections[] = list2.getSelectedIndices();
+			          
+			          Object selectionValues[] = list2.getSelectedValues();
+			          for (int i = 0, n = selections.length; i < n; i++) {
+			        	 String  t = (String) selectionValues[i];
+			        	 int j = selections[i];
+			        	
+			        	 
+			        	//model2.remove(j);
+			      	    }
+			      		
+			      //	 add(list2);  
+			    		}      
+			      }
+			    };
+			   list2.addListSelectionListener(listSelectionListener1);	   
+		}
+       		
+	      	    
+	public void set(int id,String adr){
 		
-	      public void valueChanged(ListSelectionEvent listSelectionEvent) {
-	      
-	        boolean adjust = listSelectionEvent.getValueIsAdjusting();
-	        
-	        if (!adjust) {
-	          JList list2 = (JList) listSelectionEvent.getSource();
-	          int selections[] = list2.getSelectedIndices();
-	          
-	          Object selectionValues[] = list2.getSelectedValues();
-	          for (int i = 0, n = selections.length; i < n; i++) {
-	        	 String  t = (String) selectionValues[i];
-	        	 int j = selections[i];
-	        	 int index = selections[i];
-	       		 Bookstore m = new Bookstore();
-	       			m.load();	
-	       			Book kk = m.findBookById(index);
-	       			
-	       			if(kk != null) {  		
-	       		author.remove(kk.id);
-	       		title.remove(kk.id);
-	       		id.remove(kk.id);
-	       		price.remove(kk.id);
-	       		
-	       		model2.remove(j);
-	       			System.out.print(author);
-	       			System.out.println();
-	     			System.out.print(title);
-	     			System.out.println();
-	     			System.out.print(id);
-	     			System.out.println();
-	     			System.out.print(price);
-	     			System.out.println();
-	     			float sum=0;
-	    			for(Float f:price) {
-	    				sum=sum+f;
-	    			}
-	    			System.out.println(sum);
-	       			}else
-	       			{
-	       				model2.remove(j);
-	       				author.remove(j);
-	       			   title.remove(j);
-	       			   id.remove(j);
-	       			   price.remove(j);
-	       			System.out.print(author);
-		        	System.out.println();
-	       			System.out.print(title);
-	     			System.out.println();
-	     			System.out.print(id);
-	     			System.out.println();
-	     			System.out.print(price);
-	     			System.out.println();
-	     			float sum=0;
-	    			for(Float f:price) {
-	    				sum=sum+f;
-	    			}
-	    			System.out.println(sum);
-	       			}
-	       				
-	       		
-	       			}
-       			
-	      	    }
-	         
-	      		JScrollPane jp = new JScrollPane(list2);
-	      	    add(jp);
-	      	 add(list2);  
-	    		}      
-	      
-	    };
-	   list2.addListSelectionListener(listSelectionListener1);	   
-}
-		
-	
-	public void set(){
-		OrderPanel order = new OrderPanel(); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        
+      
 	}
 
 	
+	
 
 	@Override
+	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	
 		Object source = e.getSource();
+		Bookstore mbr = new Bookstore();
+		mbr.load();
+	
+		
 		if(source == bLogout)
 		{
 			Bookstore log = new Bookstore();
@@ -250,18 +194,61 @@ public class OrderPanel extends JFrame implements ListSelectionListener,ActionLi
 			log.logout();
 			dispose();
 			
-		}else if (source == bSelect){
+		}
+		
+		else if (source == bSelect){
+			Interface i = new Interface();
 			
 			
-	        	 
-	          
-		}}
-	
-
-
+			int ilosc= Integer.parseInt(tAmount.getText());
+			il.add(ilosc);
+			int selected=list.getSelectedIndex()-1;
+			select.add(selected);
+			Book kk = mbr.findBookById(selected+1);
+			price.add(kk.brutto*ilosc);
+			
+			String g=licznik+"  --  "+i.fillBook(selected+1)+" szt: "+ilosc+"x"+kk.brutto;
+			licznik++;
+			
+				model2.addElement(g);
+				float suma=0;
+				for(Float f:price) {
+					suma=suma+f ;
+				}
+				lBasket1.setText("Do zap³aty:  "+suma);
+				tAmount.setText("");
+		
+			
+		}else if(source == bSelect1) {
+			for(int i=0;i<il.size();i++) {
+				mbr.addToCart(mbr.books.get(select.get(i)),il.get(i));
+				
+				}
+			mbr.cartOrder(mbr.users.get(userId-1),userAdress);	
+		}
+		else if (source == bDelete){
+			int selected=list2.getSelectedIndex();
+			System.out.println(selected);
+		
+			il.remove(selected);
+			select.remove(selected);
+			price.remove(selected);
+			model2.remove(selected);
+			
+			
+			System.out.print(il);
+   			System.out.println();
+ 			System.out.print(select);
+ 			System.out.println();
+ 			System.out.print(price);
+ 			System.out.println();
+ 			
+			
+		}
+		}
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

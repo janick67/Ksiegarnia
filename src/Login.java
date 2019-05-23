@@ -1,22 +1,27 @@
 import java.awt.event.ActionListener;
-import java.awt.Color;
-import java.awt.Dimension;
+
+
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import java.util.*;
+
 
 
 public class Login extends JFrame implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton bLogin,bReturn,bAdd,bNew ;
 	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2,lWarning,lAdress,lEmail;
 	private JTextField tLogin,tAdress,tEmail;
 	private JPasswordField tPassword;
 	private String login,password;
+	
 	
 	public Login()
 	{
@@ -99,7 +104,7 @@ public class Login extends JFrame implements ActionListener {
 		}
 	
 	public void login() {
-		Login log = new Login(); 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -129,8 +134,10 @@ public class Login extends JFrame implements ActionListener {
 			lInfo.setText("Twoj login to : "+log.activeUser.username);
 			if(log.activeUser.id!=6)//normal user
 			{
-				OrderPanel orderP = new OrderPanel();
-			orderP.set();
+				
+				
+				OrderPanel orderP = new OrderPanel(log.activeUser.id,log.activeUser.address);
+			orderP.set(log.activeUser.id,log.activeUser.address);
 			dispose();
 			}
 			else//Admin

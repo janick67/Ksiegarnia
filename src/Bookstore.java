@@ -11,7 +11,7 @@ public class Bookstore {
 	ArrayList<OrderBook> cart = new ArrayList<OrderBook>();
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Order> orders = new ArrayList<Order>();
-	User activeUser = null;
+	 User activeUser = null;
 
 //	public static void main(String[] args) {
 //		Bookstore mbs = new Bookstore();
@@ -75,6 +75,18 @@ public class Bookstore {
 		int index = books.indexOf(new Book(id));
 		if (index >= 0) return books.get(index);
 		return null;
+	}
+	
+	public String findBookByname(String name ) {
+		String ks = null;
+		for(int i=0;i<books.size();i++) {
+			if(name.equals(books.get(i))){
+				  ks = books.toString();
+				
+			}
+		}return ks;
+		
+		
 	}
 		
 	public User findUserById(int id) {
@@ -189,7 +201,7 @@ public class Bookstore {
 		}
 	}
 	
-	public boolean login(String username, String password)
+	public int login(String username, String password)
 	{
 		for(int i = 0; i < users.size(); i++) {
 			User user = users.get(i);
@@ -198,12 +210,13 @@ public class Bookstore {
 				if (user.checkPassword(password))
 				{
 					this.activeUser = user;
-					return true;	
+					
+					return activeUser.id;	
 				}
-				return false;
+				return -1;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	public void logout()

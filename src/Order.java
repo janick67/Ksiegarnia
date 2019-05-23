@@ -38,7 +38,7 @@ public class Order {
 	
 	public void addBook(int id, Book newone, int amount)
 	{
-		this.totalPrice += newone.netto;
+		this.totalPrice += newone.brutto;
 		this.books.add(new OrderBook(id, newone,amount));	
 	}
 	
