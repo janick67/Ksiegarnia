@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Bookstore {
 	
 	ArrayList<Book> books = new ArrayList<Book>();
+	
 	ArrayList<OrderBook> cart = new ArrayList<OrderBook>();
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Order> orders = new ArrayList<Order>();
@@ -151,7 +152,8 @@ public class Bookstore {
 				int userId = rs.getInt("userID");
 				int total = rs.getInt("totalPrice");
 				String deliveryAddress = rs.getString("deliveryaddress");
-				Order temp = new Order(id, userId, total, deliveryAddress);
+				int status = rs.getInt("status");
+				Order temp = new Order(id, userId, total, deliveryAddress, status);
 				if (!orders.contains(temp)) orders.add(temp);
 			}
 		    
@@ -228,7 +230,9 @@ public class Bookstore {
 	
 	public void addToCart(Book newone, int amount)
 	{
-		cart.add(new OrderBook(newone, amount));
+		if (newone.instock - amount > 0) {
+			cart.add(new OrderBook(newone, amount));
+		}
 	}
 	
 	public void cartOrder(User user, String address)

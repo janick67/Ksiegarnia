@@ -43,7 +43,7 @@ public class User {
 	public int writeSQL()
 	{
 		if(this.id != 0) return -1;
-		int id = Mysql.insert("INSERT INTO `users`VALUES (default,'"+username+"','"+password+"','"+email+"','"+address+"')");
+		int id = Mysql.insert("INSERT INTO `users`VALUES (default,'"+username+"','"+password+"','"+email+"','"+address+"','"+isadmin+"')");
 		if (id != 0) {
 			this.id = id;
 			return id;
@@ -54,7 +54,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", address=" + address + "]";
+				+ ", address=" + address + ", isadmin="+isadmin + "]";
 	}
 	
 	@Override

@@ -49,8 +49,11 @@ public class Book {
 		return true;
 	}
 
-	public int writeSQL()
+	public int writeSQL(boolean update)
 	{
+		if (update) {
+			Mysql.insert("UPDATE books SET instock = "+this.instock+" WHERE id = "+this.id);
+		}
 		if(this.id != 0) return -1;
 		int id = Mysql.insert("INSERT INTO `books`VALUES (default,'"+title+"','"+author+"','"+instock+"','"+print+"','"+language+"','"+year+"','"+brutto+"','"+netto+"','"+ean+"','"+page+"')");
 		if (id != 0) {
@@ -58,6 +61,21 @@ public class Book {
 			return id;
 		}
 		return -1;
+	}
+	
+	public int addToStock(int value)
+	{
+		if (this.instock - value > 0) {
+			this.instock -= value;
+			writeSQL(true);
+			return 1;
+		}
+		return 0;
+	}
+	
+	public int writeSQL()
+	{
+		return this.writeSQL(false);
 	}
 	
 	@Override
