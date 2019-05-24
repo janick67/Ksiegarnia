@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,10 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class AdminBook extends JFrame implements ActionListener {
-	JLabel lTitle,lHello,lId,lTitleB,lAuthor,lInstock;
-	JButton bReturn,bConfirm,bAdd;
+	private JLabel lTitle,lHello,lId,lTitleB,lAuthor,lInstock;
+	private JButton bReturn,bConfirm,bAdd;
+	private JOptionPane oALert;
 	private JList<String> listA,listB,listC,listD,listT;
 
 	
@@ -32,26 +35,26 @@ public class AdminBook extends JFrame implements ActionListener {
 		DefaultListModel<String> model2 = new DefaultListModel<String>();
 		listB = new JList<String>(model2);
 		for(int i=0; i<=max; i++) { 
-		String book= a.fillAuthor(i);	
+		String book= a.fillBookTitle(i);	
 	    model2.add(i,book );
 	    }
 		
 		DefaultListModel<String> model3 = new DefaultListModel<String>();
-		listD = new JList<String>(model3);
+		listC = new JList<String>(model3);
 		for(int i=0; i<=max; i++) { 
-		String book= a.fillBookInstock(i);	
+		String book= a.fillAuthor(i);	
 	    model3.add(i,book );
 	    }
 		
 		DefaultListModel<String> model4 = new DefaultListModel<String>();
-		listC = new JList<String>(model4);
+		listD = new JList<String>(model4);
 		for(int i=0; i<=max; i++) { 
-		String book= a.fillBookTitle(i);	
+		String book= a.fillBookInstock(i);	
 	    model4.add(i,book );
 	    }
 		
-//		int max=a.maxBookId();	
-//		DefaultListModel<String> model1 = new DefaultListModel<String>();
+//	//	int max=a.maxBookId();	
+//	//	DefaultListModel<String> model1 = new DefaultListModel<String>();
 //		listA = new JList<String>(model1);
 //		for(int i=0; i<=max; i++) { 
 //		String book= a.fillBook(i);	
@@ -81,10 +84,10 @@ public class AdminBook extends JFrame implements ActionListener {
 		
 		listA.setBounds(0, 100, 200, 200);
 		add(listA);
-		listC.setBounds(200, 100, 200, 200);
-		add(listC);
-		listB.setBounds(400, 100, 200, 200);
+		listB.setBounds(200, 100, 200, 200);
 		add(listB);
+		listC.setBounds(400, 100, 200, 200);
+		add(listC);
 		listD.setBounds(600, 100, 200, 200);
 		add(listD);
 		
@@ -121,13 +124,23 @@ public class AdminBook extends JFrame implements ActionListener {
 		if(source == bConfirm) 
 		{
 			if
-			(listA.getSelectedIndex() == -1)
+			(listA.getSelectedIndex() == -1 && listB.getSelectedIndex() == -1 )
 			{
-				lTitle.setText("Nic nie wybrano");
+				//lTitle.setText("Nic nie wybrano");
+				//Component oALert = null;
+				JOptionPane.showMessageDialog(oALert, "Proszę zaznaczyć książkę do usunięcia.");
 			}
 			else
 			{
-				int selected=listA.getSelectedIndex();
+				int selected;
+				if(listA.getSelectedIndex() != -1)
+				{
+					 selected=listA.getSelectedIndex();
+				}
+				else
+				{
+				 selected=listB.getSelectedIndex();
+				}
 				//lTitle.setText("wybrano "+selected);
 				Bookstore mbr = new Bookstore();
 				mbr.load();

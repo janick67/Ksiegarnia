@@ -11,10 +11,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class InterfaceAdmin extends JFrame implements ActionListener{
-
-	/**
-	 * 
-	 */
 	private JButton bBook, bOrder,bUser,bLogOut;
 	private JLabel lHello,lBook,lUser,lOrder;
 
@@ -63,9 +59,7 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 		InterfaceAdmin admin = new InterfaceAdmin();
 		admin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		admin.setVisible(true);	
-//		Bookstore mbr = new Bookstore();	
-//		mbr.load();
-		//mbr.deleteBook(mbr.findBookById(1));
+
 	}
 	
 	public String fillBook(int u)
@@ -132,7 +126,7 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 		mbr.load();	
 		User my = mbr.findUserById(u);
 		
-		if(my != null) return(my.id+"  -  "+my.username); 
+		if(my != null) return(""+my.username); 
 		return "";
 	}
 	
@@ -154,11 +148,54 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 		Bookstore mbr = new Bookstore();
 		mbr.load();	
 		Order my = mbr.findOrderById(u);
-		//String dane = mbr.findOrderById(id);
 		if(my != null) return(my.id+"  -  "+my.userId+"  -  "+my.totalPrice+"  -  "+my.deliveryAddress); 
 		return "";
 	}
 	
+	public String fillOrderId(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Order my = mbr.findOrderById(u);
+		if(my != null) return(my.id+""); 
+		return "";
+	}
+	
+	public String fillOrderIdUser(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Order my = mbr.findOrderById(u);
+		if(my != null) return(""+my.userId); 
+		return "";
+	}
+	
+	public String fillOrderTotalPrice(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Order my = mbr.findOrderById(u);
+		if(my != null) return(my.totalPrice+""); 
+		return "";
+	}
+	
+	public String fillOrderDeliveryAddress(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Order my = mbr.findOrderById(u);
+		if(my != null) return(my.deliveryAddress); 
+		return "";
+	}
+	
+	public String fillOrderStatus(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Order my = mbr.findOrderById(u);
+		if(my != null) return(my.status+""); 
+		return "";
+	}
 	
 	public int  maxOrderId(){
 		Bookstore mbr = new Bookstore();
@@ -179,14 +216,8 @@ public class InterfaceAdmin extends JFrame implements ActionListener{
 //	public static void main(String[] args) {
 //		InterfaceAdmin admin = new InterfaceAdmin();
 //		admin.window();	
-//		Bookstore test = new Bookstore();
-//		test.load();
-////		for(int i=0;i<max;i++)
-////		{
-////		System.out.println(test.books.get(i));
-////		}
-//		
 //	}
+
 	
 	
 

@@ -6,17 +6,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class AdminUser extends JFrame implements ActionListener {
-	JLabel lTitle,lHello;
-	JButton bReturn,bConfirm;
-	private JList<String> listA,listT;
+	private JLabel lTitle,lHello;
+	private JButton bReturn,bConfirm;
+	private JList<String> listA;
+	private JOptionPane oALert;
 
 	
 	AdminUser()
 	{
 		setSize(800,600);
-		setTitle("ZARZ¥DZANIE URZYTKOWNIKAMI");
+		setTitle("ZARZÄ„DZANIE URZYTKOWNIKAMI");
 		setLayout(null);
 		
 		InterfaceAdmin a = new InterfaceAdmin();
@@ -29,15 +31,15 @@ public class AdminUser extends JFrame implements ActionListener {
 	    model1.add(i,user );
 	    }
 		
-		lHello = new JLabel("ZARZ¥DZANIE URZYTKOWNIKAMI");
+		lHello = new JLabel("ZARZÄ„DZANIE URZYTKOWNIKAMI");
 		lHello.setBounds(0, 20, 800, 30);
 		lHello.setHorizontalAlignment(JLabel.CENTER);
 		add(lHello);
 
-		listA.setBounds(320, 100, 160, 200);
+		listA.setBounds(300, 100, 150, 200);
 		add(listA);
 		
-		bConfirm = new JButton("USUÑ");
+		bConfirm = new JButton("USUÅƒ");
 		bConfirm.setBounds(300, 300, 150, 30);
 		add(bConfirm);
 		bConfirm.addActionListener(this);
@@ -47,7 +49,7 @@ public class AdminUser extends JFrame implements ActionListener {
 		lTitle.setHorizontalAlignment(JLabel.CENTER);
 		add(lTitle);
 		
-		bReturn = new JButton("Powrót");
+		bReturn = new JButton("PowrÃ³t");
 		bReturn.setBounds(300, 450, 150, 30);
 		add(bReturn);
 		bReturn.addActionListener(this);
@@ -67,12 +69,11 @@ public class AdminUser extends JFrame implements ActionListener {
 			if
 			(listA.getSelectedIndex() == -1)
 			{
-				lTitle.setText("Nic nie wybrano");
+				JOptionPane.showMessageDialog(oALert, "ProszÄ™ zaznaczyÄ‡ urzytkownika do usuniÄ™cia.");
 			}
 			else
 			{
 				int selected=listA.getSelectedIndex();
-				//lTitle.setText("wybrano "+selected);
 				Bookstore mbr = new Bookstore();
 				mbr.load();
 				mbr.deleteUser(mbr.findUserById(selected));

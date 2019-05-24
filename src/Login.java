@@ -132,7 +132,7 @@ public class Login extends JFrame implements ActionListener {
 		if(log.activeUser != null)
 		{
 			lInfo.setText("Twoj login to : "+log.activeUser.username);
-			if(log.activeUser.id!=6)//normal user
+			if(log.activeUser.isadmin!=true)//normal user
 			{
 				
 				
