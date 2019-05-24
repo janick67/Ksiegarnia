@@ -58,13 +58,13 @@ public class Order {
 			Mysql.insert("UPDATE orders SET status = "+this.status+" WHERE id = "+this.id);
 		}
 		if(this.id != 0) return -1;
-		int id = Mysql.insert("INSERT INTO `orders`VALUES (default,'"+this.userId+"','"+this.totalPrice+"','"+this.deliveryAddress+"','"+this.status+"',default)");
+		int id = Mysql.insert("INSERT INTO `orders`VALUES (default,'"+this.userId+"','"+this.totalPrice+"','"+this.deliveryAddress+"',default,'"+this.status+"')");
 		if (id != 0) {
 			this.id = id;			
 			for (int i = 0; i < books.size(); i++)
 			{
 				OrderBook book = books.get(i);
-				int bookId = Mysql.insert("INSERT INTO `orderbooks`VALUES (default,'"+this.id+"','"+book.book.id+"','"+book.amount+"')");
+				int bookId = Mysql.insert("INSERT INTO `orderbooks` VALUES (default,'"+this.id+"','"+book.book.id+"','"+book.amount+"')");
 				if (bookId != 0)
 				{
 					book.id = bookId;

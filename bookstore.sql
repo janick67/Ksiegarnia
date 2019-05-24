@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 22 Maj 2019, 17:40
+-- Czas generowania: 24 Maj 2019, 17:34
 -- Wersja serwera: 10.1.37-MariaDB
 -- Wersja PHP: 7.1.26
 
@@ -48,8 +48,8 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`ID`, `title`, `author`, `instock`, `print`, `language`, `year`, `brutto`, `netto`, `ean`, `page`) VALUES
 (1, 'Pan Tadeusz', 'Adam Mickiewicz', 1, '', '', 0, 0, 2, 0, 0),
-(2, 'Lalka', 'Bolesław Prus', 2, '', '', 0, 0, 4, 0, 0),
-(3, 'Potop', 'Sienkiewicz', 5, '', '', 0, 0, 9, 0, 0),
+(2, 'Lalka', 'Bolesław Prus', 1, '', '', 0, 0, 4, 0, 0),
+(3, 'Potop', 'Sienkiewicz', 2, '', '', 0, 0, 9, 0, 0),
 (4, 'Harry Potter', 'J.K.R.', 5, '', 'PL', 0, 0, 13, 0, 0);
 
 -- --------------------------------------------------------
@@ -90,18 +90,19 @@ CREATE TABLE `orders` (
   `userID` int(11) NOT NULL,
   `totalPrice` int(11) NOT NULL,
   `deliveryAddress` varchar(100) NOT NULL,
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(5) NOT NULL DEFAULT '1' COMMENT '1-przyjęte do realizacji, 2 - zrealizowane, 3 - anulowane'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `orders`
 --
 
-INSERT INTO `orders` (`ID`, `userID`, `totalPrice`, `deliveryAddress`, `timestamp`) VALUES
-(2, 2, 25, '34-700 Rdzawka 67', '2019-05-04 09:42:09'),
-(4, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40'),
-(5, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40'),
-(6, 2, 31, 'Rabka-Zdrój', '2019-05-22 16:29:36');
+INSERT INTO `orders` (`ID`, `userID`, `totalPrice`, `deliveryAddress`, `timestamp`, `status`) VALUES
+(2, 2, 25, '34-700 Rdzawka 67', '2019-05-04 09:42:09', 2),
+(4, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40', 1),
+(5, 2, 0, 'Rabka-Zdrój', '2019-05-22 16:28:40', 1),
+(6, 2, 31, 'Rabka-Zdrój', '2019-05-22 16:29:36', 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,7 @@ CREATE TABLE `users` (
   `password` varchar(20) NOT NULL,
   `email` varchar(30) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `isadmin` bit(1) NOT NULL
+  `isadmin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -123,10 +124,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `username`, `password`, `email`, `address`, `isadmin`) VALUES
-(1, 'test', 'test', 'test@test.com', '', b'0'),
-(2, 'test2', 'test2', 'test2@test.com', '', b'0'),
-(3, 'test3', 'test3', 'test3@test', '', b'0'),
-(6, 'admin', 'admin', 'email@admin.net', '', b'1');
+(1, 'test', 'test', 'test@test.com', '', 0),
+(2, 'test2', 'test2', 'test2@test.com', '', 0),
+(3, 'test3', 'test3', 'test3@test', '', 0),
+(6, 'admin', 'admin', 'email@admin.net', '', 1);
 
 --
 -- Indeksy dla zrzutów tabel
