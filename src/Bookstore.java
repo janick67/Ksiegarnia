@@ -76,12 +76,20 @@ public class Bookstore {
 			}
 		}return ks;
 	}
-		
+	
+	// findUserById - wyszukuje i zwraca u¿ytkownika z listy users na podstawie podanego id
+	// Parametry: id u¿ytkownika którego chcemy znalezæ
+	// Returns: zwraca u¿ytkownika o podanym id lub null jeœli nie znalaz³ ¿adnego
 	public User findUserById(int id) {
 		int index = users.indexOf(new User(id));
 		if (index >= 0) return users.get(index);
 		return null;
 	}
+	
+	
+	// findOrderById - wyszukuje i zwraca zamówienie z listy orders na podstawie podanego id
+	// Parametry: id zamówienia którego chcemy znalezæ
+	// Returns: zwraca zamówienie o podanym id lub null jeœli nie znalaz³ ¿adnego
 //MZ	
 	public Order findOrderById(int id) {
 		int index = orders.indexOf(new Order(id));
@@ -89,18 +97,26 @@ public class Bookstore {
 		return null;
 	}
 //MZ end	
+	
+	// deleteUser usuwa podanego u¿ytkownika z listy i z bazy sql
+	// Parametry: user - obiekt typu User zawieraj¹cy u¿ytkownika którego chcemy usun¹æ
 	public boolean deleteUser(User user) {
 		user.delete();
 		users.remove(user);
 		return true;
 	}
 	
+	
+	// deleteBook usuwa podan¹ ksi¹¿kê z listy i z bazy sql
+	// Parametry: user - obiekt typu User zawieraj¹cy u¿ytkownika którego chcemy usun¹æ
 	public boolean deleteBook(Book book) {
 		book.delete();
 		books.remove(book);
 		return true;
 	}
 	
+	
+	// loadUsers - pobiera z bazy sql wszystkie dane na temat u¿ytkoników z tabeli users i zapisuje ich w liœcie users jako obiekty typu User
 	public void loadUsers()
 	{
 		Mysql mysqlConnect = new Mysql();
@@ -127,6 +143,8 @@ public class Bookstore {
 		}
 	}
 	
+
+	// loadUsers - pobiera z bazy sql wszystkie dane na temat zamówieñ z tabeli orders i zapisuje je w liœcie orders jako obiekty typu Order
 	public void loadOrders()
 	{
 		Mysql mysqlConnect = new Mysql();
@@ -152,6 +170,8 @@ public class Bookstore {
 		}
 	}
 	
+	
+	// loadUsers - pobiera z bazy sql wszystkie dane na temat ksi¹¿ek z tabeli books i zapisuje je w liœcie books jako obiekty typu Book
 	public void loadOrderBooks()
 	{
 		Mysql mysqlConnect = new Mysql();
@@ -190,6 +210,10 @@ public class Bookstore {
 		}
 	}
 	
+	
+	// login - funkcja pozwala zalogowaæ siê do ksiêgarni, sprawdza czy podany u¿ytkownik istanieje i czy has³o siê zgadza, po udanym logowaniu zapisuje u¿ytkownika w activeUser
+	// Parametry: nazwa u¿ytkonika i has³o na którego chcemy siê zalogowaæ
+	// Returns: zwraca id zalogowanego u¿ytkonika lub -1 jeœli logowanie siê nie powiod³o
 	public int login(String username, String password)
 	{
 		for(int i = 0; i < users.size(); i++) {
@@ -208,20 +232,24 @@ public class Bookstore {
 		return -1;
 	}
 	
+	// logout - wylogowywuje u¿ytkonika, przy okazji czyszcz¹c jego koszyk
 	public void logout()
 	{
 		activeUser = null;
 		cart = new ArrayList<OrderBook>();
 	}
 	
-	
+	// addToCart - dodaje ksi¹¿ki do koszyka
+	// Parametry: newone - ksi¹¿ka któr¹ chcemy dodaæ, amount - liczba sztuk ksi¹¿ki któr¹ chcemy dodaæ
 	public void addToCart(Book newone, int amount)
 	{
-		if (newone.instock - amount > 0) {
+		if (newone.instock - amount >= 0) {
 			cart.add(new OrderBook(newone, amount));
 		}
 	}
 	
+	// cartOrder - tworzy zamówienie z ksi¹¿ek znajduj¹cych siê w koszyku 
+	// Parametry: user - u¿ytkownik który sk³ada zamówienie, address - adres na który ma zostaæ wys³ane zamówienie
 	public void cartOrder(User user, String address)
 	{
 		Order newone = new Order(user.id, cart, address);
@@ -230,21 +258,17 @@ public class Bookstore {
 		newone.writeSQL();
 	}
 	
-	
+	// addBook - dodaje ksi¹¿kê uzupe³niaj¹c jedynie podstawowe dane, o pozosta³e dane mo¿na uzupe³niæ pózniej
+	// Parametry: tytu³, autot i iloœæ sztuk która ma zostaæ dodana na magazynie
 	public void addBook(String title, String author, int instock)
 	{
 		Book newone = new Book(title, author, instock);
 		newone.id = newone.writeSQL();
 		books.add(newone);
 	}
-	
-	public void addUser(String username, String password, String email, String address)
-	{
-		User newone = new User(username, password, email, address, 0);
-		newone.id = newone.writeSQL();
-		users.add(newone);
-	}
-
+		
+	// addUser - dodaje u¿ytkownika do listy users i na bazie sql
+	// Parametry: nazwa u¿ytkownika, has³o, email, adres
 	public void addUser(String username, String password, String email, String address, int isadmin)
 	{
 		User newone = new User(username, password, email, address, isadmin);
@@ -252,6 +276,13 @@ public class Bookstore {
 		users.add(newone);
 	}
 	
+	//Przeci¹¿enie powy¿szej metody ustawiaj¹c domyœlnie u¿ytkownika jako nie admina
+	public void addUser(String username, String password, String email, String address)
+	{
+		addUser(username, password, email, address, 0);
+	}
+	
+	// preapreOrder tworzy nowe zamówienie ale nie zapisuje go na bazie sql
 	public Order prepareOrder(int userId)
 	{
 		Order newone = new Order(userId);
