@@ -1,3 +1,5 @@
+//Mateusz Zygmunt klasa pozwalająca adminowi zarządzać użytkownikiem
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,7 +20,7 @@ public class AdminUser extends JFrame implements ActionListener {
 	AdminUser()
 	{
 		setSize(800,600);
-		setTitle("ZARZĄDZANIE URZYTKOWNIKAMI");
+		setTitle("ZARZĄDZANIE UŻYTKOWNIKAMI");
 		setLayout(null);
 		
 		InterfaceAdmin a = new InterfaceAdmin();
@@ -31,7 +33,7 @@ public class AdminUser extends JFrame implements ActionListener {
 	    model1.add(i,user );
 	    }
 		
-		lHello = new JLabel("ZARZĄDZANIE URZYTKOWNIKAMI");
+		lHello = new JLabel("ZARZĄDZANIE UŻYTKOWNIKAMI");
 		lHello.setBounds(0, 20, 800, 30);
 		lHello.setHorizontalAlignment(JLabel.CENTER);
 		add(lHello);
@@ -69,7 +71,7 @@ public class AdminUser extends JFrame implements ActionListener {
 			if
 			(listA.getSelectedIndex() == -1)
 			{
-				JOptionPane.showMessageDialog(oALert, "Proszę zaznaczyć urzytkownika do usunięcia.");
+				JOptionPane.showMessageDialog(oALert, "Proszę zaznaczyć użytkownika do usunięcia.");
 			}
 			else
 			{

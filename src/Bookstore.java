@@ -3,43 +3,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-// ¿eby dodaæ zamówówienie u¿yj opcji prepareOrder, pózniej dodaj do niego ksiazki uzywajac order.addBook a jak ju¿ jest gotowe to u¿yj order.writeSQL
+//JAN WORWA
 
+// Moja g³ówna klasa w której ³¹czê pozosta³e: book, order, user
+// W tej klasie przy pomocy load mo¿na pobraæ wszystkie dane z bazy i uzupe³niæ nimi klasy
+// Zawiera informacje o wszystkich obiektach, obiekyty s¹ przechowywane w tablicowych listach i zawieraj¹ dane na temat wszytkich u¿ytkowników, ksi¹¿ek i zamówieñ w systemie
+
+// Aby dodaæ nowe zamówienie z koszyka u¿yj metody addToCart podaj¹c wybrane ksi¹¿ki a nastêpnie, potwierdz zamówienie korzystaj¹c z orderCart
+// ¯eby dodaæ zamówówienie bez koszyka u¿yj opcji prepareOrder, pózniej dodaj do niego ksiazki uzywajac order.addBook a jak ju¿ jest gotowe to u¿yj order.writeSQL
 public class Bookstore {
-	
 	ArrayList<Book> books = new ArrayList<Book>();
-	
 	ArrayList<OrderBook> cart = new ArrayList<OrderBook>();
 	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Order> orders = new ArrayList<Order>();
-	 User activeUser = null;
+	User activeUser = null;
 
-//	public static void main(String[] args) {
-//		Bookstore mbs = new Bookstore();
-//		mbs.load();
-//		
-//		
-//		System.out.println(mbs.activeUser);
-//		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
-//		System.out.println(mbs.login("admin", "admin"));
-//		System.out.println(mbs.activeUser);
-//		if (mbs.activeUser != null) System.out.println(mbs.activeUser.username);
-////		Book potop = new Book("Potop","Sienkiewicz",5);
-////		potop.writeSQL();
-////		mbs.books.add(potop);
-////		User admin = new User("admin","admin","email@admin.net","");
-////		admin.writeSQL();
-////		mbs.users.add(admin);
-//	}
-	
+	//metoda powinna byæ odpalona zaraz po stworzeniu nowej instancji klasy, celowo nie jest odpalana w konstruktorze
 	public void load()
 	{
 		loadBooks();
 		loadUsers();
 		loadOrders();
-		
 	}
 	
+	//pobiera dane o ksi¹¿kach i wpisuje je do listy books
 	public void loadBooks()
 	{
 		Mysql mysqlConnect = new Mysql();
@@ -62,8 +49,6 @@ public class Bookstore {
 				Book temp = new Book(id,title,author,instock,print,language,year,brutto,netto,ean,page);
 				if (!books.contains(temp)) books.add(temp);
 			}
-		    
-		    
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		} finally {
@@ -71,23 +56,25 @@ public class Bookstore {
 		}
 	}
 	
-	
+	// findBookById - wyszukuje i zwraca ksi¹¿kê w lisicie books na podstawie podanego id
+	// Parametry: id ksi¹¿ki któr¹ chcemy znalezæ
+	// Returns: zwraca ksi¹¿kê o podanym id lub null jeœli nie znalaz³ ¿adnej
 	public Book findBookById(int id ) {
 		int index = books.indexOf(new Book(id));
 		if (index >= 0) return books.get(index);
 		return null;
 	}
 	
+	// findBookByname - wyszukuje i zwraca ksi¹¿kê w lisicie books na podstawie podanej pe³nej nazwy
+	// Parametry: nazwa ksi¹¿ki któr¹ chcemy znalezæ
+	// Returns: zwraca ksi¹¿kê w formie stringu 
 	public String findBookByname(String name ) {
 		String ks = null;
 		for(int i=0;i<books.size();i++) {
 			if(name.equals(books.get(i))){
 				  ks = books.toString();
-				
 			}
 		}return ks;
-		
-		
 	}
 		
 	public User findUserById(int id) {
@@ -127,7 +114,7 @@ public class Bookstore {
 				String password = rs.getString("password");
 				String email = rs.getString("email");
 				String address = rs.getString("address");
-				boolean isadmin = rs.getBoolean("isadmin");
+				int isadmin = rs.getInt("isadmin");
 				User temp = new User(username,password,email,address,isadmin);
 				temp.id = id;
 				if (!users.contains(temp)) users.add(temp);
@@ -253,12 +240,12 @@ public class Bookstore {
 	
 	public void addUser(String username, String password, String email, String address)
 	{
-		User newone = new User(username, password, email, address, false);
+		User newone = new User(username, password, email, address, 0);
 		newone.id = newone.writeSQL();
 		users.add(newone);
 	}
 
-	public void addUser(String username, String password, String email, String address, boolean isadmin)
+	public void addUser(String username, String password, String email, String address, int isadmin)
 	{
 		User newone = new User(username, password, email, address, isadmin);
 		newone.id = newone.writeSQL();

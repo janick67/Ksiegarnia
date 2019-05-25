@@ -1,3 +1,4 @@
+//Mateusz Zygmunt klasa pozwalająca adminowi zarządzać książkami
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 24 Maj 2019, 17:34
+-- Czas generowania: 25 Maj 2019, 11:10
 -- Wersja serwera: 10.1.37-MariaDB
 -- Wersja PHP: 7.1.26
 
@@ -116,7 +116,7 @@ CREATE TABLE `users` (
   `password` varchar(20) NOT NULL,
   `email` varchar(30) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `isadmin` tinyint(1) NOT NULL DEFAULT '0'
+  `isadmin` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

@@ -1,4 +1,10 @@
-
+/* Mateusz Zygmunt - klasa która posiada funkcje króre zosta³y wykorzystane w klasach 
+-AddNewBook
+-AdminBook
+-AdminOrder
+-AdminUser
+oraz jest ona g³ównym interfejsem admina 
+*/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;

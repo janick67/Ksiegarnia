@@ -1,38 +1,24 @@
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.ScrollPane;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.acl.LastOwnerException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-//import com.sun.glass.ui.Window;
 
+//////
 public class Interface extends JFrame implements ActionListener{
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JLabel lPrice,lQuantity,lHello,lMenu,lList;
-	private JButton bOrder, bLogin;
+	private JButton bOrder, bLogin,bSearch;
 	private JList<String> list;
 
 	
@@ -43,41 +29,45 @@ public class Interface extends JFrame implements ActionListener{
 		setTitle("Ksiêgarnia");
 		setLayout(null);
 		
-	
 		lQuantity = new JLabel("");
-		lQuantity.setBounds(560, 45, 150, 20);
+		lQuantity.setBounds(600, 75, 150, 20);
 		add(lQuantity);
 		
 		lHello = new JLabel("Witaj w ksiêgarni!");
+		lHello.setFont(lHello.getFont().deriveFont(15.0f));
 		lHello.setBounds(20, 20, 150, 20);
 		add(lHello);
 		
 		lPrice = new JLabel("");
-		lPrice.setBounds(560, 70, 150, 20);
+		lPrice.setBounds(600, 105, 150, 20);
 		add(lPrice);
 		
 		lMenu = new JLabel("Menu");
-		lMenu.setBounds(30, 70, 150, 28);
+		lMenu.setBounds(30, 100, 150, 28);
 		lMenu.setFont(lMenu.getFont().deriveFont(20.0f));
 		add(lMenu);
 		
 		lList = new JLabel("Dostêpne pozycje");
-		lList.setBounds(340, 20, 150, 28);
-		
+		lList.setFont(lList.getFont().deriveFont(13.0f));
+		lList.setBounds(380, 50, 150, 28);
 		add(lList);
 	
-		
 		bOrder = new JButton("Zamów ksi¹¿kê");
-		bOrder.setBounds(30, 100, 140, 30);
+		bOrder.setBounds(30, 130, 140, 30);
 		add(bOrder);
 		bOrder.addActionListener(this);
 		
 		bLogin = new JButton("Zaloguj siê");
-		bLogin.setBounds(30, 130, 140, 30);
+		bLogin.setBounds(30, 170, 140, 30);
 		add(bLogin);
 		bLogin.addActionListener(this);
 		
-		Bookstore mbr = new Bookstore();
+		bSearch = new JButton("Wyszukaj");
+		bSearch.setBounds(30, 210, 140, 30);
+		add(bSearch);
+		bSearch.addActionListener(this);
+		
+		
 		int max=maxBookId();		
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		list = new JList<String>(model);
@@ -87,7 +77,7 @@ public class Interface extends JFrame implements ActionListener{
 		model.add(i,titleAuthor);
 	    }
 	
-		list.setBounds(260, 50, 300, 150);
+		list.setBounds(300, 80, 300, 150);
 		add(list);
 		
 		 ListSelectionListener listSelectionListener = new ListSelectionListener() {
@@ -98,77 +88,90 @@ public class Interface extends JFrame implements ActionListener{
 		        if (!adjust) {
 		          JList list = (JList) listSelectionEvent.getSource();
 		          int selections[] = list.getSelectedIndices();
-		        //  Object selectionValues[] = list.getSelectedValues();
-		          for (int i = 0, n = selections.length; i < n; i++) {
-		        	 
+		       
+		          for (int i = 0, n = selections.length; i < n; i++)
+		          	{
 		        	  Bookstore mbr = new Bookstore();
-		      		mbr.load();	
+		      		  mbr.load();	
 		      	
-		      		Book my = mbr.findBookById(selections[i]);
-		      		 int q=my.instock; 
-		      		 float price = my.brutto;
-		            	lQuantity.setText("Dostêpna iloœæ: "+q);
-		            	lPrice.setText("Cena: "+price);
+		      		  Book mybook = mbr.findBookById(selections[i]);
+		      		  int q=mybook.instock; 
+		      		  float price = mybook.netto;
+		      		  		lQuantity.setText("Dostêpna iloœæ: "+q);
+		      		  		lPrice.setText("Cena: "+price);
 		    		} 
-		    		
 		        }
 		      }
 		    };
 		   list.addListSelectionListener(listSelectionListener);	   
 	}
 	
+	
+public String findBookByName(String name) {
+		
+		Bookstore mbr = new Bookstore();
+		mbr.load();
+		String info = null;
+		
+			for(int i=1; i<mbr.books.size(); i++) 
+				{
+					Book book = mbr.findBookById(i);
+					if(name.equals(book.title)){
+					info= "Mamy tak¹ ksi¹¿kê.";
+				}else 
+					{
+						info = "Nie mamy takiej ksi¹¿ki.";
+					}
+				}return info;
+			}
+		
+	
 		  
-	public String fillBook(int u)
+public String fillBook(int u)
+	{
+		Bookstore mbr = new Bookstore();
+		mbr.load();	
+		Book mybook = mbr.findBookById(u);
+		
+		if(mybook != null) return(mybook.author+"  --  "+mybook.title); 
+		return "";
+	}
+	
+public String fillBookExtended(int u)
 	{
 		Bookstore mbr = new Bookstore();
 		mbr.load();	
 		Book my = mbr.findBookById(u);
 		
-		if(my != null) return(my.author+"  --  "+my.title); 
-		return "";
-	}
-	
-	public String fillBook2(int u)
-	{
-		Bookstore mbr = new Bookstore();
-		mbr.load();	
-		Book my = mbr.findBookById(u);
-		
-		if(my != null) return(my.author+"  --  "+my.title+"  Cena: "+my.brutto+"  Szt. "+my.instock); 
+		if(my != null) return(my.author+"  --  "+my.title+"  Cena: "+my.netto+"  Szt. "+my.instock); 
 		return "";
 	}
 	
 	
-	public int  maxBookId(){
+public int  maxBookId(){
 		Bookstore mbr = new Bookstore();
 		mbr.load();
 		Iterator<Book> iterator = mbr.books.iterator();
 		int max=0;
 		while(iterator.hasNext()) {
-			Book wartosc = iterator.next();
-			max= wartosc.id;
+			Book value = iterator.next();
+			max= value.id;
 			}
 		return max;
 	}
 	
 	
-	public void window() {
+public void window() {
 		Interface window = new Interface();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
 	}
 	
 	
-	public static void main(String[] args) {
+public static void main(String[] args) {
 		Bookstore mbr = new Bookstore();	
-		mbr.load();
-		//for(int i =0;i<4;i++) {
 		//mbr.addToCart(mbr.books.get(i),1);		//dodawanie ksi¹¿ek do koszyka
-		
-	//	}
-		
-	//	mbr.cartOrder(mbr.users.get(1),"Sów");	//wysy³anie zamówienia
-		
+		//	mbr.cartOrder(mbr.users.get(1),"Sów");	//wysy³anie zamówienia
 		//mbr.deleteBook(book)// test ¿e dzia³a wyszukiwanie u¿ytkownika, tak samo jest z wyszukiwaniem ksiazki
 		//System.out.print(mbr.findUserById(6));
 //		System.out.println();
@@ -176,32 +179,44 @@ public class Interface extends JFrame implements ActionListener{
 //		System.out.println();						// test ksiazki
 //		System.out.print(mbr.fill(2));
 //		System.out.println();
-		//mbr.addBook("Harry Potter", "J.K.R.", 5); // test dodawnia ksiazki
+		//mbr.addUser("oooo", "oooso", "we","email",false); // test dodawnia ksiazki
+		//mbr.addUser(username, password, email, address, isadmin);
 		//System.out.print(mbr.books);	
+		
 		Interface window = new Interface();
 		window.window();
-	}
+		
+}
 	
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+@Override
+public void actionPerformed(ActionEvent e) 
+	{
 		Object source = e.getSource();
-		if(source == bLogin)
-		{
-			Login log = new Login();
-			log.login();
-			dispose();
-		} if(source == bOrder) {
-				int answer = JOptionPane.showConfirmDialog(null , "Aby z³o¿yæ zamówienie musisz siê zalogowaæ!","Uwaga",JOptionPane.YES_NO_OPTION);
-				if(JOptionPane.YES_OPTION == answer) {
+			if(source == bLogin)
+				{
 					Login log = new Login();
 					log.login();
 					dispose();
+				} 
+			if(source == bOrder) 
+				{
+				int answer = JOptionPane.showConfirmDialog(rootPane , "Aby z³o¿yæ zamówienie musisz siê zalogowaæ!","Uwaga",JOptionPane.YES_NO_OPTION);
+					if(JOptionPane.YES_OPTION == answer) 
+						{
+						Login log = new Login();
+						log.login();
+						dispose();
+						}
 				}
-
-}
+		if(source == bSearch ) 
+			{
+			Interface window = new Interface();
+			String name= JOptionPane.showInputDialog(rootPane,"Podaj tytu³ ksi¹¿ki.");
+			String information =window.findBookByName(name);
+			JOptionPane.showMessageDialog(rootPane, information);
+			}
 	}
 }
  

@@ -1,4 +1,6 @@
+//JAN WORWA
 
+// Klasa zawiera szczególy na temat pozycji zamówienia, czyli id na bazie, ksi¹¿kê i jej iloœæ
 public class OrderBook {
 	int id = 0;
 	Book book;
@@ -21,6 +23,7 @@ public class OrderBook {
 		this(id,null,0);
 	}
 	
+	// wylicza cenê netto za ca³¹ pozycjê
 	public float totalNetto()
 	{
 		return book.netto*amount;
@@ -32,6 +35,8 @@ public class OrderBook {
 		return "OrderBook [id=" + id + ", book=" + book + ", amount=" + amount + "]";
 	}
 	
+	
+	//poróenuje po id
 	@Override
 	public boolean equals(Object other)
     {

@@ -11,17 +11,17 @@ import javax.swing.JTextField;
 
 
 
-public class Login extends JFrame implements ActionListener {
+public class NewUser extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
-	private JButton bLogin,bReturn,bAddAccount,bNewAccount ;
-	private JLabel lLogin,lPassword,lHello,lInfo,lInfo2,lWarning,lAdress,lEmail;
+	private JButton bReturn,bAddAccount,bNewAccount ;
+	private JLabel lLogin,lPassword,lHello,lWarning,lAdress,lEmail;
 	private JTextField tLogin,tAdress,tEmail;
 	private JPasswordField tPassword;
-	private String login,password;
+
 	
 	
-	public Login()
+	public NewUser()
 	{
 		setSize(800,600);
 		setTitle("Ksiêgarnia");
@@ -30,14 +30,6 @@ public class Login extends JFrame implements ActionListener {
 		lWarning=new JLabel("");
 		lWarning.setBounds(20, 280,300, 20);
 		add(lWarning);
-			
-		lHello=new JLabel("Witaj w panelu logowania!");
-		lHello.setBounds(20, 20, 150, 20);
-		add(lHello);
-		
-		lInfo=new JLabel("Nie masz jeszcze u nas konta?");
-		lInfo.setBounds(20, 200,300, 20);
-		add(lInfo);
 		
 		lLogin=new JLabel("Login");
 		lLogin.setBounds(20, 60, 150, 20);
@@ -49,15 +41,19 @@ public class Login extends JFrame implements ActionListener {
 		
 		lAdress=new JLabel("Adres");
 		lAdress.setBounds(20, 140, 150, 20);
+		add(lAdress);
 		
 		lEmail=new JLabel("E-mail");
 		lEmail.setBounds(20, 180, 150, 20);
+		add(lEmail);
 		
 		tAdress=new JTextField();
 		tAdress.setBounds(120, 140, 150, 20);
+		add(tAdress);
 		
 		tEmail=new JTextField();
 		tEmail.setBounds(120,180, 150, 20);
+		add(tEmail);
 		
 		tLogin=new JTextField();
 		tLogin.setBounds(120, 60, 150, 20);
@@ -67,32 +63,22 @@ public class Login extends JFrame implements ActionListener {
 		tPassword.setBounds(120, 100, 150, 20);
 		add(tPassword);
 		
-		bLogin = new JButton("Zaloguj");
-		bLogin.setBounds(120, 150, 150, 20);
-		add(bLogin);
-		bLogin.addActionListener(this);
-		
 		bNewAccount = new JButton("Za³ó¿ konto");
 		bNewAccount.setBounds(120, 220, 150, 20);
 		bNewAccount.addActionListener(this);
+		add(bNewAccount);
 		
-		bAddAccount = new JButton("Za³ó¿ ju¿ teraz!");
-		bAddAccount.setBounds(30, 230, 150, 20);
-		add(bAddAccount);
-		bAddAccount.addActionListener(this);
 		
 		bReturn = new JButton("Wróæ");
 		bReturn.setBounds(650, 20, 100, 20);
 		add(bReturn);
 		bReturn.addActionListener(this);
 		
-		lInfo2=new JLabel();
-		lInfo2.setBounds(120, 200, 250, 20);
-		add(lInfo2);
+		
 		
 		}
 	
-public void login() 
+public void addUser() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -110,44 +96,36 @@ public void login()
 				ret.window();
 				dispose();
 			}
-			else if(source == bLogin)
-			{
-				Bookstore log = new Bookstore();
-				log.load();
-				login = tLogin.getText();
-				password = tPassword.getText();
-				log.login(login, password);
-				
-				if(log.activeUser != null)
-				{
-					lInfo.setText("Twoj login to : "+log.activeUser.username);
-					if(log.activeUser.isadmin==0)//normal user
-					{
-						OrderPanel orderP = new OrderPanel(log.activeUser.id,log.activeUser.address);
-						orderP.set(log.activeUser.id,log.activeUser.address);
-						dispose();
-					}
-					else//Admin
-					{
-						lInfo2.setText("Masz prawa admina");
-						InterfaceAdmin admin = new InterfaceAdmin();
-						admin.window();
-						dispose();
-					}
-				}
-				else lInfo.setText("Bledne dane");
-		}
-		
-		
-				 else if(source == bAddAccount) 
+			else if(source == bAddAccount) 
 				 {
-					 NewUser user = new NewUser();
-					 user.addUser();
-					 dispose();
+					 lHello.setText("Podaj dane do za³o¿enia konta!");
+					 lHello.setBounds(20, 20, 300, 20);
+					 
+					 
+					
+			
+				 }
+				 else if(source == bNewAccount) 
+				 {
+					 Bookstore newUser =new Bookstore();
+					 String log = tLogin.getText();
+					 String pass = tPassword.getText();
+					 String adr = tAdress.getText();
+					 String Email = tEmail.getText();
+		 
+					 if(log.isEmpty() || pass.isEmpty() ||adr.isEmpty() || Email.isEmpty()) 
+					 {
+						 lWarning.setText("Podaj dane!");
+					 }else{
+						 		
+						 		newUser.addUser(log, pass,adr,Email);
+						 		Login load = new Login();
+						 		load.login();
+						 		dispose();
 					 	  }
 				 }
 	}
-	
+	}
 	
 
 
